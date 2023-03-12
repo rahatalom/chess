@@ -106,8 +106,10 @@ export const Chess = () => {
                   const indexz = index % 2 === 0 ? 0 : 1;
                   return (
                     <div
-                      onDragStart={(e) => console.log(e)}
-                      onDragEnd={(e) => console.log(e)}
+                      draggable={true}
+                      onDragStart={(e) => console.log(e.target)}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={(e) => console.log(e.target)}
                       style={{
                         height: "60px",
                         width: "60px",
