@@ -43,7 +43,7 @@ export const Chess = () => {
 
   squares = squares.sort();
 
-  const rows = Object.values(getRows(squares));
+  const [rows, setRows] = React.useState(Object.values(getRows(squares)));
 
   const x: Record<string, string> = {};
 
@@ -87,6 +87,9 @@ export const Chess = () => {
       }
     });
 
+  const [obj2, setObj2] = React.useState(x);
+  const [sourceId, setSourceId] = React.useState("");
+
   return (
     <>
       <h1 style={{ color: "gray", paddingTop: "20px", fontSize: "40px" }}>
@@ -107,9 +110,29 @@ export const Chess = () => {
                   return (
                     <div
                       draggable={true}
-                      onDragStart={(e) => console.log(e.target)}
+                      onDragStart={(e) => {
+                        const id = Object.values(e.target)[1].id;
+
+                        setSourceId(id);
+
+                        console.log(x[id]);
+                      }}
+                      onDragEnd={(e) => {
+                        const filteredObj = Object.fromEntries(
+                          Object.entries(obj2).filter(
+                            (entry) => entry[0] !== sourceId
+                          )
+                        );
+                        setObj2(filteredObj);
+                      }}
                       onDragOver={(e) => e.preventDefault()}
-                      onDrop={(e) => console.log(e.target)}
+                      onDrop={(e) => {
+                        const id = Object.values(e.target)[1].id;
+
+                        setObj2({ ...obj2, [id]: obj2[sourceId] });
+
+                        console.log(x[id]);
+                      }}
                       style={{
                         height: "60px",
                         width: "60px",
@@ -117,14 +140,14 @@ export const Chess = () => {
                         justifyContent: "center",
                         alignItems: "center",
                         backgroundColor: y[indexz],
-                        color: !x[square] ? y[indexz] : undefined,
+                        color: !obj2[square] ? y[indexz] : undefined,
                         border: `${y[indexz]} 0.5px solid`,
                       }}
                     >
                       <img
                         id={square}
                         style={{ height: "55px", width: "55px" }}
-                        src={obj[x[square]]}
+                        src={obj[obj2[square]]}
                         draggable={true}
                       />
                     </div>
