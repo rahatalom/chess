@@ -1,0 +1,32 @@
+.chess {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  padding-bottom: 20px;
+  background-image: linear-gradient(to bottom right, #fec868, #fda769);
+}
+
+.chess-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.chess-header-text {
+  color: gray;
+  font-size: 40px;
+  margin-right: 10px;
+}
+
+.chess-board {
+  display: block;
+  height: fit-content;
+  width: fit-content;
+  border: grey 10px solid;
+}
+
+.reset-button {
+  width: fit-content;
+  margin-top: 5px;
+}
