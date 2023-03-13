@@ -12,6 +12,8 @@ export const Chess = () => {
     getInitialPosition(rows)
   );
   const [sourceId, setSourceId] = React.useState("");
+  const [destinationId, setDestinationId] = React.useState("");
+
 
   return (
     <div className="chess">
@@ -45,16 +47,18 @@ export const Chess = () => {
                       setSourceId(id);
                     }}
                     onDragEnd={() => {
+                      if(sourceId !== destinationId){
                       const filteredObj = Object.fromEntries(
                         Object.entries(positionObject).filter(
                           (entry) => entry[0] !== sourceId
                         )
                       );
-                      setPositionObject(filteredObj);
+                      setPositionObject(filteredObj)}
                     }}
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={(e) => {
                       const id = Object.values(e.target)[1].id;
+                      setDestinationId(id)
 
                       setPositionObject({
                         ...positionObject,
