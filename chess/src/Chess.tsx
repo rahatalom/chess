@@ -39,7 +39,6 @@ export const Chess = () => {
                 const colorIndex = index % 2 === 0 ? 0 : 1;
                 return (
                   <div
-                    draggable={true}
                     onDragStart={(e) => {
                       const id = Object.values(e.target)[1].id;
 
