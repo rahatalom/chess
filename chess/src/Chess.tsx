@@ -1,106 +1,16 @@
 import React from "react";
 import "./Chess.less";
-
-const nums = [1, 2, 3, 4, 5, 6, 7, 8];
-const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
-
-const obj: any = {
-  WPawn:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-pawn-128.png",
-  WKnight:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-knight-128.png",
-  WBishop:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-bishop-128.png",
-  WRook:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-rook-512.png",
-  WQueen:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-queen-128.png",
-  WKing:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-king-128.png",
-  BPawn:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-solid/512/chess-pawn-128.png",
-  BKnight:
-    "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/chess-knight-128.png",
-  BBishop:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-solid/512/chess-bishop-128.png",
-  BRook:
-    "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/chess-rook-128.png",
-  BQueen:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-solid/512/chess-queen-128.png",
-  BKing:
-    "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/chess-king-128.png",
-};
-
-const getRows = (squares: Array<string>) => {
-  const x: Record<string, Array<string>> = {};
-
-  nums.forEach(
-    (num) => (x[num] = squares.filter((square) => +square[1] === num))
-  );
-
-  return x;
-};
+import { ImageObj } from "./constants";
+import { getInitialPosition, getRows, getSquares } from "./utils";
 
 export const Chess = () => {
-  let squares = [];
+  const squares = getSquares();
 
-  for (let i = 0; i < letters.length; i++) {
-    for (let j = 0; j < nums.length; j++) {
-      squares.push(letters[i] + nums[j]);
-    }
-  }
+  const rows = getRows(squares);
 
-  squares = squares.sort();
-
-  const rows = Object.values(getRows(squares));
-
-  const x: Record<string, string> = {};
-
-  rows
-    .join(",")
-    .split(",")
-    .forEach((square: string) => {
-      const number = square[1];
-      if (number === "7") {
-        x[square] = "WPawn";
-      }
-      if (number === "2") {
-        x[square] = "BPawn";
-      }
-      if (square === "A1" || square === "H1") {
-        x[square] = "BRook";
-      }
-      if (square === "A8" || square === "H8") {
-        x[square] = "WRook";
-      }
-
-      if (square === "B1" || square === "G1") {
-        x[square] = "BKnight";
-      }
-      if (square === "B8" || square === "G8") {
-        x[square] = "WKnight";
-      }
-      if (square === "C1" || square === "F1") {
-        x[square] = "BBishop";
-      }
-      if (square === "C8" || square === "F8") {
-        x[square] = "WBishop";
-      }
-      if (square === "D1") {
-        x[square] = "BQueen";
-      }
-      if (square === "D8") {
-        x[square] = "WQueen";
-      }
-      if (square === "E1") {
-        x[square] = "BKing";
-      }
-      if (square === "E8") {
-        x[square] = "WKing";
-      }
-    });
-
-  const [obj2, setObj2] = React.useState(x);
+  const [positionObject, setPositionObject] = React.useState(
+    getInitialPosition(rows)
+  );
   const [sourceId, setSourceId] = React.useState("");
 
   return (
@@ -112,14 +22,14 @@ export const Chess = () => {
         <div className="chess-board">
           {rows.map((row, index) => {
             const isEven = index % 2 === 0;
-            const y = isEven
+            const colorArray = isEven
               ? ["whitesmoke", "#609EA2"]
               : ["#609EA2", "whitesmoke"];
 
             return (
               <div style={{ display: "block" }}>
                 {row.map((square: string, index) => {
-                  const indexz = index % 2 === 0 ? 0 : 1;
+                  const colorIndex = index % 2 === 0 ? 0 : 1;
                   return (
                     <div
                       draggable={true}
@@ -130,17 +40,17 @@ export const Chess = () => {
                       }}
                       onDragEnd={(e) => {
                         const filteredObj = Object.fromEntries(
-                          Object.entries(obj2).filter(
+                          Object.entries(positionObject).filter(
                             (entry) => entry[0] !== sourceId
                           )
                         );
-                        setObj2(filteredObj);
+                        setPositionObject(filteredObj);
                       }}
                       onDragOver={(e) => e.preventDefault()}
                       onDrop={(e) => {
                         const id = Object.values(e.target)[1].id;
 
-                        setObj2({ ...obj2, [id]: obj2[sourceId] });
+                        setPositionObject({ ...positionObject, [id]: positionObject[sourceId] });
                       }}
                       style={{
                         height: "60px",
@@ -148,9 +58,9 @@ export const Chess = () => {
                         display: "inline-flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        backgroundColor: y[indexz],
-                        color: !obj2[square] ? y[indexz] : undefined,
-                        border: `${y[indexz]} 0.5px solid`,
+                        backgroundColor: colorArray[colorIndex],
+                        color: !positionObject[square] ? colorArray[colorIndex] : undefined,
+                        border: `${colorArray[colorIndex]} 0.5px solid`,
                       }}
                     >
                       <img
@@ -159,7 +69,7 @@ export const Chess = () => {
                           height: "55px",
                           width: "55px",
                         }}
-                        src={obj[obj2[square]]}
+                        src={ImageObj[positionObject[square]]}
                         draggable={true}
                       />
                     </div>
@@ -169,6 +79,7 @@ export const Chess = () => {
             );
           })}
         </div>
+        <button onClick={() => setPositionObject(getInitialPosition(rows))} style={{marginTop: "30px"}}>Reset</button>
       </div>
     </>
   );
