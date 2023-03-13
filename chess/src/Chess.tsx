@@ -31,12 +31,6 @@ const obj: any = {
     "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/chess-king-128.png",
 };
 
-const getSquareNumber = (square: string) => {
-  const num = +square[1];
-  const letter = square[0];
-  return nums.indexOf(num) * 8 + letters.indexOf(letter);
-};
-
 const getRows = (squares: Array<string>) => {
   const x: Record<string, Array<string>> = {};
 
@@ -133,8 +127,6 @@ export const Chess = () => {
                         const id = Object.values(e.target)[1].id;
 
                         setSourceId(id);
-
-                        console.log(x[id]);
                       }}
                       onDragEnd={(e) => {
                         const filteredObj = Object.fromEntries(
@@ -149,8 +141,6 @@ export const Chess = () => {
                         const id = Object.values(e.target)[1].id;
 
                         setObj2({ ...obj2, [id]: obj2[sourceId] });
-
-                        console.log(x[id]);
                       }}
                       style={{
                         height: "60px",
@@ -165,7 +155,10 @@ export const Chess = () => {
                     >
                       <img
                         id={square}
-                        style={{ height: "55px", width: "55px" }}
+                        style={{
+                          height: "55px",
+                          width: "55px",
+                        }}
                         src={obj[obj2[square]]}
                         draggable={true}
                       />
