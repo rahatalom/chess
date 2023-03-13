@@ -5,15 +5,30 @@ const nums = [1, 2, 3, 4, 5, 6, 7, 8];
 const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
 const obj: any = {
-  Pawn: "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-pawn-128.png",
-  Knight:
+  WPawn:
+    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-pawn-128.png",
+  WKnight:
     "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-knight-128.png",
-  Bishop:
+  WBishop:
     "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-bishop-128.png",
-  Rook: "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-rook-512.png",
-  Queen:
+  WRook:
+    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-rook-512.png",
+  WQueen:
     "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-queen-128.png",
-  King: "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-king-128.png",
+  WKing:
+    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-king-128.png",
+  BPawn:
+    "https://cdn3.iconfinder.com/data/icons/font-awesome-solid/512/chess-pawn-128.png",
+  BKnight:
+    "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/chess-knight-128.png",
+  BBishop:
+    "https://cdn3.iconfinder.com/data/icons/font-awesome-solid/512/chess-bishop-128.png",
+  BRook:
+    "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/chess-rook-128.png",
+  BQueen:
+    "https://cdn3.iconfinder.com/data/icons/font-awesome-solid/512/chess-queen-128.png",
+  BKing:
+    "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/chess-king-128.png",
 };
 
 const getSquareNumber = (square: string) => {
@@ -43,7 +58,7 @@ export const Chess = () => {
 
   squares = squares.sort();
 
-  const [rows, setRows] = React.useState(Object.values(getRows(squares)));
+  const rows = Object.values(getRows(squares));
 
   const x: Record<string, string> = {};
 
@@ -52,38 +67,42 @@ export const Chess = () => {
     .split(",")
     .forEach((square: string) => {
       const number = square[1];
-      if (number === "2" || number === "7") {
-        x[square] = "Pawn";
+      if (number === "7") {
+        x[square] = "WPawn";
       }
-      if (
-        square === "A1" ||
-        square === "H1" ||
-        square === "A8" ||
-        square === "H8"
-      ) {
-        x[square] = "Rook";
+      if (number === "2") {
+        x[square] = "BPawn";
       }
-      if (
-        square === "B1" ||
-        square === "G1" ||
-        square === "B8" ||
-        square === "G8"
-      ) {
-        x[square] = "Knight";
+      if (square === "A1" || square === "H1") {
+        x[square] = "BRook";
       }
-      if (
-        square === "C1" ||
-        square === "F1" ||
-        square === "C8" ||
-        square === "F8"
-      ) {
-        x[square] = "Bishop";
+      if (square === "A8" || square === "H8") {
+        x[square] = "WRook";
       }
-      if (square === "D1" || square === "D8") {
-        x[square] = "Queen";
+
+      if (square === "B1" || square === "G1") {
+        x[square] = "BKnight";
       }
-      if (square === "E1" || square === "E8") {
-        x[square] = "King";
+      if (square === "B8" || square === "G8") {
+        x[square] = "WKnight";
+      }
+      if (square === "C1" || square === "F1") {
+        x[square] = "BBishop";
+      }
+      if (square === "C8" || square === "F8") {
+        x[square] = "WBishop";
+      }
+      if (square === "D1") {
+        x[square] = "BQueen";
+      }
+      if (square === "D8") {
+        x[square] = "WQueen";
+      }
+      if (square === "E1") {
+        x[square] = "BKing";
+      }
+      if (square === "E8") {
+        x[square] = "WKing";
       }
     });
 
