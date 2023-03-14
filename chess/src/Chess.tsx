@@ -24,7 +24,7 @@ export const Chess = () => {
           className="reset-button"
           onClick={() => setPositionObject(getInitialPosition(rows))}
         >
-          🔄
+          ↺
         </button>
       </div>
 
@@ -32,8 +32,8 @@ export const Chess = () => {
         {rows.map((row, index) => {
           const isEven = index % 2 === 0;
           const colorArray = isEven
-            ? ["#F1DBBF", "#C27664"]
-            : ["#C27664", "#F1DBBF"];
+            ? ["#99a", "#445"]
+            : ["#445", "#99a"];
 
           return (
             <div style={{ display: "block", width: "fit-content" }}>
@@ -83,6 +83,7 @@ export const Chess = () => {
                       style={{
                         height: "55px",
                         width: "55px",
+                        cursor: "grab"
                       }}
                       src={ImageObj[positionObject[square]]}
                       draggable={true}

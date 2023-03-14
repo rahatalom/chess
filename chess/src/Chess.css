@@ -4,7 +4,15 @@
   align-items: center;
   height: 100vh;
   padding-bottom: 20px;
-  background-image: linear-gradient(to bottom right, #fec868, #fda769);
+  background-color:#556;
+  background-image: linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+  linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+  linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+  linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+  linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a),
+  linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a);
+  background-size:80px 140px;
+  background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
 }
 
 .chess-header {
@@ -14,7 +22,6 @@
 }
 
 .chess-header-text {
-  color: gray;
   font-size: 40px;
   margin-right: 10px;
 }
@@ -23,10 +30,13 @@
   display: block;
   height: fit-content;
   width: fit-content;
-  border: grey 10px solid;
+  border: 10px solid rgba(47, 45, 45, 0.5);
 }
 
 .reset-button {
   width: fit-content;
   margin-top: 5px;
+  font-size: 20px;
+  font-weight: bolder;
+  background-color: #99a;
 }
