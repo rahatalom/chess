@@ -22,8 +22,10 @@
 }
 
 .chess-header-text {
-  font-size: 40px;
+  font-family:cursive;
+  font-size: 45px;
   margin-right: 10px;
+  opacity: 0.7;
 }
 
 .chess-board {
