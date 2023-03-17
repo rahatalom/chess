@@ -14,7 +14,6 @@ export const Chess = () => {
   const [sourceId, setSourceId] = React.useState("");
   const [destinationId, setDestinationId] = React.useState("");
 
-
   return (
     <div className="chess">
       <div className="chess-header">
@@ -31,9 +30,7 @@ export const Chess = () => {
       <div className="chess-board">
         {rows.map((row, index) => {
           const isEven = index % 2 === 0;
-          const colorArray = isEven
-            ? ["#99a", "#445"]
-            : ["#445", "#99a"];
+          const colorArray = isEven ? ["#99a", "#445"] : ["#445", "#99a"];
 
           return (
             <div style={{ display: "block", width: "fit-content" }}>
@@ -47,18 +44,19 @@ export const Chess = () => {
                       setSourceId(id);
                     }}
                     onDragEnd={() => {
-                      if(sourceId !== destinationId){
-                      const filteredObj = Object.fromEntries(
-                        Object.entries(positionObject).filter(
-                          (entry) => entry[0] !== sourceId
-                        )
-                      );
-                      setPositionObject(filteredObj)}
+                      if (sourceId !== destinationId) {
+                        const filteredObj = Object.fromEntries(
+                          Object.entries(positionObject).filter(
+                            (entry) => entry[0] !== sourceId
+                          )
+                        );
+                        setPositionObject(filteredObj);
+                      }
                     }}
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={(e) => {
                       const id = Object.values(e.target)[1].id;
-                      setDestinationId(id)
+                      setDestinationId(id);
 
                       setPositionObject({
                         ...positionObject,
@@ -83,7 +81,7 @@ export const Chess = () => {
                       style={{
                         height: "55px",
                         width: "55px",
-                        cursor: "grab"
+                        cursor: "grab",
                       }}
                       src={ImageObj[positionObject[square]]}
                       draggable={true}
