@@ -1,5 +1,6 @@
 import React from "react";
 import "./Chess.css";
+import { isEmpty } from "lodash";
 import { ImageObj } from "./constants";
 import { getInitialPosition, getRows, getSquares } from "./utils";
 
@@ -14,17 +15,43 @@ export const Chess = () => {
   const [sourceId, setSourceId] = React.useState("");
   const [destinationId, setDestinationId] = React.useState("");
 
+  const [list, setList] = React.useState<Record<string, string>[]>([]);
+
   return (
     <div className="chess">
       <div className="chess-header">
         <h1 className="chess-header-text">Chess</h1>
-
-        <button
-          className="reset-button"
-          onClick={() => setPositionObject(getInitialPosition(rows))}
-        >
-          ↺
-        </button>
+        <div className="chess-button-container">
+          <button
+            className="chess-button"
+            onClick={() => {
+              setPositionObject(getInitialPosition(rows));
+              setList([]);
+            }}
+          >
+            ↺
+          </button>
+          <button
+            className="chess-button"
+            disabled={isEmpty(list)}
+            onClick={() => {
+              const index = list.indexOf(positionObject);
+              setPositionObject(list[index - 1] ?? getInitialPosition(rows));
+            }}
+          >
+            Prev
+          </button>
+          <button
+            className="chess-button"
+            disabled={isEmpty(list)}
+            onClick={() => {
+              const index = list.indexOf(positionObject);
+              setPositionObject(list[index + 1] ?? list[index]);
+            }}
+          >
+            Next
+          </button>
+        </div>
       </div>
 
       <div className="chess-board">
@@ -44,13 +71,14 @@ export const Chess = () => {
                       setSourceId(id);
                     }}
                     onDragEnd={() => {
-                      if (sourceId !== destinationId) {
+                      if (sourceId !== destinationId && destinationId.length) {
                         const filteredObj = Object.fromEntries(
                           Object.entries(positionObject).filter(
                             (entry) => entry[0] !== sourceId
                           )
                         );
                         setPositionObject(filteredObj);
+                        setList([...list, filteredObj]);
                       }
                     }}
                     onDragOver={(e) => e.preventDefault()}
@@ -77,7 +105,7 @@ export const Chess = () => {
                     }}
                   >
                     <object
-                      data={ImageObj[positionObject[square]]} 
+                      data={ImageObj[positionObject[square]]}
                       type="image/jpeg"
                       id={square}
                       style={{
@@ -86,7 +114,7 @@ export const Chess = () => {
                         cursor: "grab",
                       }}
                     >
-                      <img  src="" />
+                      <img src="" />
                     </object>
                   </div>
                 );
