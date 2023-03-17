@@ -76,16 +76,18 @@ export const Chess = () => {
                       border: `${colorArray[colorIndex]} 10px solid`,
                     }}
                   >
-                    <img
+                    <object
+                      data={ImageObj[positionObject[square]]} 
+                      type="image/jpeg"
                       id={square}
                       style={{
                         height: "55px",
                         width: "55px",
                         cursor: "grab",
                       }}
-                      src={ImageObj[positionObject[square]]}
-                      draggable={true}
-                    />
+                    >
+                      <img  src="" />
+                    </object>
                   </div>
                 );
               })}
