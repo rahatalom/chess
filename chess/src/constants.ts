@@ -3,27 +3,27 @@ export const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
 export const ImageObj: any = {
   WPawn:
-    "https://img.icons8.com/ios/512/pawn.png",
+    "https://images.chesscomfiles.com/chess-themes/pieces/light/100/wp.png",
   WKnight:
-    "https://img.icons8.com/ios/512/knight.png",
+    "https://images.chesscomfiles.com/chess-themes/pieces/light/100/wn.png",
   WBishop:
-    "https://img.icons8.com/ios/512/bishop.png",
+  "https://images.chesscomfiles.com/chess-themes/pieces/light/100/wb.png",
   WRook:
-    "https://img.icons8.com/ios/512/rook.png",
+    "https://images.chesscomfiles.com/chess-themes/pieces/light/100/wr.png",
   WQueen:
-    "https://img.icons8.com/ios/512/queen.png",
+    "https://images.chesscomfiles.com/chess-themes/pieces/light/100/wq.png",
   WKing:
-    "https://img.icons8.com/ios/512/king.png",
+    "https://images.chesscomfiles.com/chess-themes/pieces/light/100/wk.png",
   BPawn:
-    "https://img.icons8.com/ios-filled/512/pawn.png",
+    "https://images.chesscomfiles.com/chess-themes/pieces/light/100/bp.png",
   BKnight:
-    "https://img.icons8.com/ios-filled/512/knight.png",
+    "https://images.chesscomfiles.com/chess-themes/pieces/light/100/bn.png",
   BBishop:
-    "https://img.icons8.com/ios-filled/512/bishop.png",
+    "https://images.chesscomfiles.com/chess-themes/pieces/light/100/bb.png",
   BRook:
-    "https://img.icons8.com/ios-filled/512/rook.png",
+    "https://images.chesscomfiles.com/chess-themes/pieces/light/100/br.png",
   BQueen:
-    "https://img.icons8.com/ios-filled/512/queen.png",
+    "https://images.chesscomfiles.com/chess-themes/pieces/light/100/bq.png",
   BKing:
-    "https://img.icons8.com/ios-filled/512/king.png",
+    "https://images.chesscomfiles.com/chess-themes/pieces/light/100/bk.png",
 };
