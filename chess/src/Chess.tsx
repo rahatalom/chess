@@ -38,8 +38,8 @@ const prev = React.useCallback(() =>{
 
 const next = React.useCallback(() =>{
   const index = list.indexOf(positionObject);
-  setPositionObject(list[index + 1] ?? list[index])
-},[list, positionObject])
+  setPositionObject(list[index + 1] ?? list[index] ?? getInitialPosition(rows))
+},[list, positionObject, rows])
 
   return (
     <div className="chess">
