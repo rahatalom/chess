@@ -3,27 +3,27 @@ export const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
 export const ImageObj: any = {
   WPawn:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-pawn-128.png",
+    "https://img.icons8.com/ios/512/pawn.png",
   WKnight:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-knight-128.png",
+    "https://img.icons8.com/ios/512/knight.png",
   WBishop:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-bishop-128.png",
+    "https://img.icons8.com/ios/512/bishop.png",
   WRook:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-rook-512.png",
+    "https://img.icons8.com/ios/512/rook.png",
   WQueen:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-queen-128.png",
+    "https://img.icons8.com/ios/512/queen.png",
   WKing:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-regular-1/512/chess-king-128.png",
+    "https://img.icons8.com/ios/512/king.png",
   BPawn:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-solid/512/chess-pawn-128.png",
+    "https://img.icons8.com/ios-filled/512/pawn.png",
   BKnight:
-    "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/chess-knight-128.png",
+    "https://img.icons8.com/ios-filled/512/knight.png",
   BBishop:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-solid/512/chess-bishop-128.png",
+    "https://img.icons8.com/ios-filled/512/bishop.png",
   BRook:
-    "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/chess-rook-128.png",
+    "https://img.icons8.com/ios-filled/512/rook.png",
   BQueen:
-    "https://cdn3.iconfinder.com/data/icons/font-awesome-solid/512/chess-queen-128.png",
+    "https://img.icons8.com/ios-filled/512/queen.png",
   BKing:
-    "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/chess-king-128.png",
+    "https://img.icons8.com/ios-filled/512/king.png",
 };
