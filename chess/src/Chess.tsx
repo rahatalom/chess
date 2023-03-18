@@ -1,5 +1,9 @@
 import React from "react";
 import "./Chess.css";
+import {
+  LeftOutlined,
+  RightOutlined
+} from '@ant-design/icons';
 import { isEmpty } from "lodash";
 import { ImageObj } from "./constants";
 import { getInitialPosition, getRows, getSquares } from "./utils";
@@ -56,14 +60,14 @@ const next = React.useCallback(() =>{
             disabled={isEmpty(list)}
             onClick={() => prev()}
           >
-            Prev
+            <LeftOutlined/>
           </button>
           <button
             className="chess-button"
             disabled={isEmpty(list)}
             onClick={() => next()}
           >
-            Next
+            <RightOutlined/>
           </button>
         </div>
       </div>
