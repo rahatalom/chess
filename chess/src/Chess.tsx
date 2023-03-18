@@ -127,12 +127,12 @@ const next = React.useCallback(() =>{
                       type="image/jpeg"
                       id={square}
                       style={{
-                        height: "55px",
-                        width: "55px",
+                        height: "70px",
+                        width: "70px",
                         cursor: "grab",
                       }}
                     >
-                      <img src={undefined} />
+                      <img alt="" src={undefined} />
                     </object>
                   </div>
                 );
