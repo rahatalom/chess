@@ -17,6 +17,26 @@ export const Chess = () => {
 
   const [list, setList] = React.useState<Record<string, string>[]>([]);
 
+  document.onkeydown = function (e) {
+    var keyCode = e.keyCode;
+    if(keyCode === 37) {
+        prev();
+    }
+    if(keyCode === 39){
+      next()
+    }
+};
+
+const prev = React.useCallback(() =>{
+  const index = list.indexOf(positionObject);
+  setPositionObject(list[index - 1] ?? getInitialPosition(rows));
+},[list, positionObject, rows])
+
+const next = React.useCallback(() =>{
+  const index = list.indexOf(positionObject);
+  setPositionObject(list[index + 1] ?? list[index])
+},[list, positionObject])
+
   return (
     <div className="chess">
       <div className="chess-header">
@@ -34,20 +54,14 @@ export const Chess = () => {
           <button
             className="chess-button"
             disabled={isEmpty(list)}
-            onClick={() => {
-              const index = list.indexOf(positionObject);
-              setPositionObject(list[index - 1] ?? getInitialPosition(rows));
-            }}
+            onClick={() => prev()}
           >
             Prev
           </button>
           <button
             className="chess-button"
             disabled={isEmpty(list)}
-            onClick={() => {
-              const index = list.indexOf(positionObject);
-              setPositionObject(list[index + 1] ?? list[index]);
-            }}
+            onClick={() => next()}
           >
             Next
           </button>
@@ -114,7 +128,7 @@ export const Chess = () => {
                         cursor: "grab",
                       }}
                     >
-                      <img src="" />
+                      <img src={undefined} />
                     </object>
                   </div>
                 );
