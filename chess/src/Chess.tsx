@@ -5,6 +5,7 @@ import {
   CaretRightOutlined,
   RetweetOutlined,
 } from "@ant-design/icons";
+import { Tooltip } from "antd";
 import { isEmpty } from "lodash";
 import { ImageObj } from "./constants";
 import classNames from "classnames";
@@ -60,43 +61,53 @@ export const Chess = () => {
       <div className="chess-header">
         <h1 className="chess-header-text">Chess</h1>
         <div className="chess-button-container">
-          <button
-            className="chess-button"
-            onClick={() => {
-              setPositionObject(getInitialPosition(rows));
-              setList([]);
-            }}
-          >
-            ↺
-          </button>
+          <Tooltip title="Restart">
+            <button
+              className="chess-button"
+              onClick={() => {
+                setPositionObject(getInitialPosition(rows));
+                setList([]);
+              }}
+            >
+              ↺
+            </button>
+          </Tooltip>
           <button
             className="chess-button"
             disabled={isEmpty(list)}
             onClick={() => prev()}
           >
-            <CaretLeftOutlined />
+            <Tooltip title="Previous move">
+              <CaretLeftOutlined />
+            </Tooltip>
           </button>
+
           <button
             className="chess-button"
             disabled={isEmpty(list)}
             onClick={() => next()}
           >
-            <CaretRightOutlined />
+            <Tooltip title="Next move">
+              <CaretRightOutlined />
+            </Tooltip>
           </button>
-          <button
-            onClick={() =>
-              setBoardSide((state) => {
-                if (state === BoardSideType.White) {
-                  return BoardSideType.Black;
-                } else {
-                  return BoardSideType.White;
-                }
-              })
-            }
-            className="chess-button"
-          >
-            <RetweetOutlined />
-          </button>
+
+          <Tooltip title="Flip board">
+            <button
+              onClick={() =>
+                setBoardSide((state) => {
+                  if (state === BoardSideType.White) {
+                    return BoardSideType.Black;
+                  } else {
+                    return BoardSideType.White;
+                  }
+                })
+              }
+              className="chess-button"
+            >
+              <RetweetOutlined />
+            </button>
+          </Tooltip>
         </div>
       </div>
 
