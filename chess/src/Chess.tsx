@@ -86,7 +86,7 @@ export const Chess = () => {
   }, [IsSameColor, destinationId, list, positionObject, sourceId]);
 
   const onDrop = React.useCallback(
-    (e: React.DragEvent<HTMLObjectElement>) => {
+    (e: React.DragEvent<HTMLDivElement>) => {
       const id = Object.values(e.target)[1].id;
       setDestinationId(id);
       setIsSameColor(getIsSameColor(id));
@@ -164,14 +164,24 @@ export const Chess = () => {
       >
         {rows.map((row, index) => {
           const isEven = index % 2 === 0;
-          const colorArray = isEven ? ["#99a", "#445"] : ["#445", "#99a"];
+          const colorArray = isEven ? ["#613", "#8a3"] : ["#8a3", "#613"];
 
           return (
-            <div style={{ display: "block", width: "fit-content" }}>
+            <div style={{ display: "flex", flexDirection:"row" }}>
               {row.map((square: string, index) => {
                 const colorIndex = index % 2 === 0 ? 0 : 1;
                 return (
                   <div
+                    onDragStart={(e) => {
+                      const id = Object.values(e.target)[1].id;
+
+                      setSourceId(id);
+                    }}
+                    onDragEnd={() => {
+                      onDragEnd();
+                    }}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => onDrop(e)}
                     style={{
                       height: "60px",
                       width: "60px",
@@ -185,32 +195,33 @@ export const Chess = () => {
                       border: `${colorArray[colorIndex]} 10px solid`,
                     }}
                   >
-                    <object
-                      data={ImageObj[positionObject[square]]}
-                      onDragStart={(e) => {
-                        const id = Object.values(e.target)[1].id;
+                    {positionObject[square] ? (
+                      <img
+                        src={ImageObj[positionObject[square]]}
+                        id={square}
+                        style={{
+                          height: "70px",
+                          width: "70px",
+                          cursor: "grab",
+                          gap:"0",
 
-                        setSourceId(id);
-                      }}
-                      onDragEnd={() => {
-                        onDragEnd();
-                      }}
-                      onDragOver={(e) => e.preventDefault()}
-                      onDrop={(e) => onDrop(e)}
-                      type="image/jpeg"
-                      id={square}
-                      style={{
-                        height: "70px",
-                        width: "70px",
-                        cursor: "grab",
-                        rotate:
-                          boardSide === BoardSideType.Black
-                            ? "180deg"
-                            : undefined,
-                      }}
-                    >
-                      <img alt="" src={undefined} />
-                    </object>
+                          rotate:
+                            boardSide === BoardSideType.Black
+                              ? "180deg"
+                              : undefined,
+                        }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          height: "70px",
+                          width: "70px",
+                        }}
+                        id={square}
+                      >
+                        {square}
+                      </div>
+                    )}
                   </div>
                 );
               })}

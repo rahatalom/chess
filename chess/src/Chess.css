@@ -1,59 +1,24 @@
 .chess {
   display: flex;
+
   flex-direction: column;
   align-items: center;
   padding-bottom: 20px;
-  background-color: #556;
-  background-image: linear-gradient(
-      30deg,
-      #445 12%,
-      transparent 12.5%,
-      transparent 87%,
-      #445 87.5%,
-      #445
+  background: radial-gradient(
+        circle at 0% 50%,
+        rgba(96, 16, 48, 0) 9px,
+        #613 10px,
+        rgba(96, 16, 48, 0) 11px
+      )
+      0px 10px,
+    radial-gradient(
+      at 100% 100%,
+      rgba(96, 16, 48, 0) 9px,
+      #613 10px,
+      rgba(96, 16, 48, 0) 11px
     ),
-    linear-gradient(
-      150deg,
-      #445 12%,
-      transparent 12.5%,
-      transparent 87%,
-      #445 87.5%,
-      #445
-    ),
-    linear-gradient(
-      30deg,
-      #445 12%,
-      transparent 12.5%,
-      transparent 87%,
-      #445 87.5%,
-      #445
-    ),
-    linear-gradient(
-      150deg,
-      #445 12%,
-      transparent 12.5%,
-      transparent 87%,
-      #445 87.5%,
-      #445
-    ),
-    linear-gradient(
-      60deg,
-      #99a 25%,
-      transparent 25.5%,
-      transparent 75%,
-      #99a 75%,
-      #99a
-    ),
-    linear-gradient(
-      60deg,
-      #99a 25%,
-      transparent 25.5%,
-      transparent 75%,
-      #99a 75%,
-      #99a
-    );
-  background-size: 80px 140px;
-  background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+    #8a3;
+  background-size: 20px 20px;
 }
 
 .chess-header {
@@ -68,21 +33,21 @@
   font-family: cursive;
   font-size: 45px;
   margin-right: 10px;
-  opacity: 0.7;
+  color: #613;
 }
 
 .chess-board {
   display: block;
   height: fit-content;
   width: fit-content;
-  border: 10px solid rgba(47, 45, 45, 0.5);
+  border: 10px solid rgba(102, 17, 51, 0.781);
 }
 
 .chess-board-rotated {
   display: block;
   height: fit-content;
   width: fit-content;
-  border: 10px solid rgba(47, 45, 45, 0.5);
+  border: 10px solid #613;
   rotate: 180deg;
 }
 
@@ -91,7 +56,8 @@
   margin: 5px 10px 0;
   font-size: 20px;
   font-weight: bolder;
-  background-color: #99a;
+  color: #613;
+  background-color: #8a3;
 }
 
 .chess-button-container {
