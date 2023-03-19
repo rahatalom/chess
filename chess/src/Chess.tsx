@@ -115,32 +115,6 @@ export const Chess = () => {
                 const colorIndex = index % 2 === 0 ? 0 : 1;
                 return (
                   <div
-                    onDragStart={(e) => {
-                      const id = Object.values(e.target)[1].id;
-
-                      setSourceId(id);
-                    }}
-                    onDragEnd={() => {
-                      if (sourceId !== destinationId && destinationId.length) {
-                        const filteredObj = Object.fromEntries(
-                          Object.entries(positionObject).filter(
-                            (entry) => entry[0] !== sourceId
-                          )
-                        );
-                        setPositionObject(filteredObj);
-                        setList([...list, filteredObj]);
-                      }
-                    }}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={(e) => {
-                      const id = Object.values(e.target)[1].id;
-                      setDestinationId(id);
-
-                      setPositionObject({
-                        ...positionObject,
-                        [id]: positionObject[sourceId],
-                      });
-                    }}
                     style={{
                       height: "60px",
                       width: "60px",
@@ -156,6 +130,35 @@ export const Chess = () => {
                   >
                     <object
                       data={ImageObj[positionObject[square]]}
+                      onDragStart={(e) => {
+                        const id = Object.values(e.target)[1].id;
+
+                        setSourceId(id);
+                      }}
+                      onDragEnd={() => {
+                        if (
+                          sourceId !== destinationId &&
+                          destinationId.length
+                        ) {
+                          const filteredObj = Object.fromEntries(
+                            Object.entries(positionObject).filter(
+                              (entry) => entry[0] !== sourceId
+                            )
+                          );
+                          setPositionObject(filteredObj);
+                          setList([...list, filteredObj]);
+                        }
+                      }}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={(e) => {
+                        const id = Object.values(e.target)[1].id;
+                        setDestinationId(id);
+
+                        setPositionObject({
+                          ...positionObject,
+                          [id]: positionObject[sourceId],
+                        });
+                      }}
                       type="image/jpeg"
                       id={square}
                       style={{
