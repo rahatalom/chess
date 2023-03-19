@@ -1,12 +1,20 @@
 import React from "react";
 import "./Chess.css";
 import {
-  LeftOutlined,
-  RightOutlined
-} from '@ant-design/icons';
+  CaretLeftOutlined,
+  CaretRightOutlined,
+  RetweetOutlined,
+} from "@ant-design/icons";
 import { isEmpty } from "lodash";
 import { ImageObj } from "./constants";
+import classNames from "classnames";
+
 import { getInitialPosition, getRows, getSquares } from "./utils";
+
+enum BoardSideType {
+  Black = "black",
+  White = "white",
+}
 
 export const Chess = () => {
   const squares = getSquares();
@@ -21,25 +29,31 @@ export const Chess = () => {
 
   const [list, setList] = React.useState<Record<string, string>[]>([]);
 
+  const [boardSide, setBoardSide] = React.useState<BoardSideType>(
+    BoardSideType.White
+  );
+
   document.onkeydown = function (e) {
     var keyCode = e.keyCode;
-    if(keyCode === 37) {
-        prev();
+    if (keyCode === 37) {
+      prev();
     }
-    if(keyCode === 39){
-      next()
+    if (keyCode === 39) {
+      next();
     }
-};
+  };
 
-const prev = React.useCallback(() =>{
-  const index = list.indexOf(positionObject);
-  setPositionObject(list[index - 1] ?? getInitialPosition(rows));
-},[list, positionObject, rows])
+  const prev = React.useCallback(() => {
+    const index = list.indexOf(positionObject);
+    setPositionObject(list[index - 1] ?? getInitialPosition(rows));
+  }, [list, positionObject, rows]);
 
-const next = React.useCallback(() =>{
-  const index = list.indexOf(positionObject);
-  setPositionObject(list[index + 1] ?? list[index] ?? getInitialPosition(rows))
-},[list, positionObject, rows])
+  const next = React.useCallback(() => {
+    const index = list.indexOf(positionObject);
+    setPositionObject(
+      list[index + 1] ?? list[index] ?? getInitialPosition(rows)
+    );
+  }, [list, positionObject, rows]);
 
   return (
     <div className="chess">
@@ -60,19 +74,37 @@ const next = React.useCallback(() =>{
             disabled={isEmpty(list)}
             onClick={() => prev()}
           >
-            <LeftOutlined/>
+            <CaretLeftOutlined />
           </button>
           <button
             className="chess-button"
             disabled={isEmpty(list)}
             onClick={() => next()}
           >
-            <RightOutlined/>
+            <CaretRightOutlined />
+          </button>
+          <button
+            onClick={() =>
+              setBoardSide((state) => {
+                if (state === BoardSideType.White) {
+                  return BoardSideType.Black;
+                } else {
+                  return BoardSideType.White;
+                }
+              })
+            }
+            className="chess-button"
+          >
+            <RetweetOutlined />
           </button>
         </div>
       </div>
 
-      <div className="chess-board">
+      <div
+        className={classNames("chess-board", {
+          "chess-board-rotated": boardSide === BoardSideType.Black,
+        })}
+      >
         {rows.map((row, index) => {
           const isEven = index % 2 === 0;
           const colorArray = isEven ? ["#99a", "#445"] : ["#445", "#99a"];
@@ -130,6 +162,10 @@ const next = React.useCallback(() =>{
                         height: "70px",
                         width: "70px",
                         cursor: "grab",
+                        rotate:
+                          boardSide === BoardSideType.Black
+                            ? "180deg"
+                            : undefined,
                       }}
                     >
                       <img alt="" src={undefined} />
