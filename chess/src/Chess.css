@@ -1,23 +1,9 @@
 .chess {
   display: flex;
   flex-direction: column;
+  height: 100vh;
   align-items: center;
-  padding-bottom: 20px;
-  background: radial-gradient(
-        circle at 0% 50%,
-        rgba(96, 16, 48, 0) 9px,
-        #613 10px,
-        rgba(96, 16, 48, 0) 11px
-      )
-      0px 10px,
-    radial-gradient(
-      at 100% 100%,
-      rgba(96, 16, 48, 0) 9px,
-      #613 10px,
-      rgba(96, 16, 48, 0) 11px
-    ),
-    #8a3;
-  background-size: 20px 20px;
+ background-color: #99a;
 }
 
 .chess-header {
@@ -28,29 +14,29 @@
   flex-direction: row;
   margin-bottom: 10px;
   width: 100%;
-  background-color: #8a3;
-  border-bottom: 2px solid #613;
+  background-color: rgba(68, 68, 85, 0.696);
+  border-bottom: 2px solid #445;
 }
 
 .chess-header-text {
   font-size: 45px;
   margin-right: 10px;
-  margin-top: 8px;
-  color: #613 !important;
+  margin-top: 7px;
+  color: rgb(34, 34, 42) !important;
 }
 
 .chess-board {
   display: block;
   height: fit-content;
   width: fit-content;
-  border: 10px solid rgba(102, 17, 51, 0.55);
+  border: 10px solid rgba(68, 68, 85, 0.571);
 }
 
 .chess-board-rotated {
   display: block;
   height: fit-content;
   width: fit-content;
-  border: 10px solid #613;
+  border: 10px solid rgba(68, 68, 85, 0.571);
   rotate: 180deg;
 }
 
@@ -59,8 +45,8 @@
   margin: 5px 10px 0;
   font-size: 20px;
   font-weight: bolder;
-  color: #613;
-  background-color: #8a3;
+  color: #445;
+  background-color: #99a;
 }
 
 .chess-button-container {

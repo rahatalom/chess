@@ -164,7 +164,7 @@ export const Chess = () => {
       >
         {rows.map((row, index) => {
           const isEven = index % 2 === 0;
-          const colorArray = isEven ? ["#613", "#8a3"] : ["#8a3", "#613"];
+          const colorArray = isEven ? ["#99a", "#445"] : ["#445", "#99a"];
 
           return (
             <div style={{ display: "flex", flexDirection:"row" }}>
