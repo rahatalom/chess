@@ -56,6 +56,52 @@ export const Chess = () => {
     );
   }, [list, positionObject, rows]);
 
+  const getIsSameColor = React.useCallback(
+    (id: string) => {
+      if (!positionObject[id]) {
+        return false;
+      }
+      return (
+        (positionObject[sourceId][0] === "W" &&
+          positionObject[id][0] === "W") ||
+        (positionObject[sourceId][0] === "B" && positionObject[id][0] === "B")
+      );
+    },
+    [positionObject, sourceId]
+  );
+
+  const [IsSameColor, setIsSameColor] = React.useState(false);
+
+  const onDragEnd = React.useCallback(() => {
+    if (IsSameColor) {
+      return;
+    }
+    if (destinationId.length) {
+      const filteredObj = Object.fromEntries(
+        Object.entries(positionObject).filter((entry) => entry[0] !== sourceId)
+      );
+      setPositionObject(filteredObj);
+      setList([...list, filteredObj]);
+    }
+  }, [IsSameColor, destinationId, list, positionObject, sourceId]);
+
+  const onDrop = React.useCallback(
+    (e: React.DragEvent<HTMLObjectElement>) => {
+      const id = Object.values(e.target)[1].id;
+      setDestinationId(id);
+      setIsSameColor(getIsSameColor(id));
+      if (getIsSameColor(id)) {
+        return;
+      }
+
+      setPositionObject({
+        ...positionObject,
+        [id]: positionObject[sourceId],
+      });
+    },
+    [getIsSameColor, positionObject, sourceId]
+  );
+
   return (
     <div className="chess">
       <div className="chess-header">
@@ -147,29 +193,10 @@ export const Chess = () => {
                         setSourceId(id);
                       }}
                       onDragEnd={() => {
-                        if (
-                          sourceId !== destinationId &&
-                          destinationId.length
-                        ) {
-                          const filteredObj = Object.fromEntries(
-                            Object.entries(positionObject).filter(
-                              (entry) => entry[0] !== sourceId
-                            )
-                          );
-                          setPositionObject(filteredObj);
-                          setList([...list, filteredObj]);
-                        }
+                        onDragEnd();
                       }}
                       onDragOver={(e) => e.preventDefault()}
-                      onDrop={(e) => {
-                        const id = Object.values(e.target)[1].id;
-                        setDestinationId(id);
-
-                        setPositionObject({
-                          ...positionObject,
-                          [id]: positionObject[sourceId],
-                        });
-                      }}
+                      onDrop={(e) => onDrop(e)}
                       type="image/jpeg"
                       id={square}
                       style={{
