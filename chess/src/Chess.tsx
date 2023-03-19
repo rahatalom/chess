@@ -5,7 +5,7 @@ import {
   CaretRightOutlined,
   RetweetOutlined,
 } from "@ant-design/icons";
-import { Tooltip } from "antd";
+import { Tooltip,Typography } from "antd";
 import { isEmpty } from "lodash";
 import { ImageObj } from "./constants";
 import classNames from "classnames";
@@ -105,7 +105,7 @@ export const Chess = () => {
   return (
     <div className="chess">
       <div className="chess-header">
-        <h1 className="chess-header-text">Chess</h1>
+        <Typography.Title className="chess-header-text">Chess</Typography.Title>
         <div className="chess-button-container">
           <Tooltip title="Restart">
             <button
