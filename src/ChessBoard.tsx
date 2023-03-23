@@ -51,7 +51,15 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       setPositionObject(filteredObj);
       setList([...list, filteredObj]);
     }
-  }, [IsSameColor, destinationId.length, list, positionObject, setList, setPositionObject, sourceId]);
+  }, [
+    IsSameColor,
+    destinationId.length,
+    list,
+    positionObject,
+    setList,
+    setPositionObject,
+    sourceId,
+  ]);
 
   const onDrop = React.useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
@@ -123,6 +131,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                             ? "180deg"
                             : undefined,
                       }}
+                      alt={ImageObj.BKnight}
                     />
                   ) : (
                     <div
