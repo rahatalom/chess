@@ -1,18 +1,14 @@
 import React from "react";
 import "./Chess.css";
-import {
-  CaretLeftOutlined,
-  CaretRightOutlined,
-  RetweetOutlined,
-} from "@ant-design/icons";
-import { Tooltip,Typography } from "antd";
-import { isEmpty } from "lodash";
+
+import { Typography } from "antd";
 import { ImageObj } from "./constants";
 import classNames from "classnames";
 
 import { getInitialPosition, getRows, getSquares } from "./utils";
+import { ActionButtons } from "./ActionButtons";
 
-enum BoardSideType {
+export enum BoardSideType {
   Black = "black",
   White = "white",
 }
@@ -33,28 +29,6 @@ export const Chess = () => {
   const [boardSide, setBoardSide] = React.useState<BoardSideType>(
     BoardSideType.White
   );
-
-  document.onkeydown = function (e) {
-    var keyCode = e.keyCode;
-    if (keyCode === 37) {
-      prev();
-    }
-    if (keyCode === 39) {
-      next();
-    }
-  };
-
-  const prev = React.useCallback(() => {
-    const index = list.indexOf(positionObject);
-    setPositionObject(list[index - 1] ?? getInitialPosition(rows));
-  }, [list, positionObject, rows]);
-
-  const next = React.useCallback(() => {
-    const index = list.indexOf(positionObject);
-    setPositionObject(
-      list[index + 1] ?? list[index] ?? getInitialPosition(rows)
-    );
-  }, [list, positionObject, rows]);
 
   const getIsSameColor = React.useCallback(
     (id: string) => {
@@ -106,55 +80,14 @@ export const Chess = () => {
     <div className="chess">
       <div className="chess-header">
         <Typography.Title className="chess-header-text">Chess</Typography.Title>
-        <div className="chess-button-container">
-          <Tooltip title="Restart">
-            <button
-              className="chess-button"
-              onClick={() => {
-                setPositionObject(getInitialPosition(rows));
-                setList([]);
-              }}
-            >
-              ↺
-            </button>
-          </Tooltip>
-          <button
-            className="chess-button"
-            disabled={isEmpty(list)}
-            onClick={() => prev()}
-          >
-            <Tooltip title="Previous move">
-              <CaretLeftOutlined />
-            </Tooltip>
-          </button>
-
-          <button
-            className="chess-button"
-            disabled={isEmpty(list)}
-            onClick={() => next()}
-          >
-            <Tooltip title="Next move">
-              <CaretRightOutlined />
-            </Tooltip>
-          </button>
-
-          <Tooltip title="Flip board">
-            <button
-              onClick={() =>
-                setBoardSide((state) => {
-                  if (state === BoardSideType.White) {
-                    return BoardSideType.Black;
-                  } else {
-                    return BoardSideType.White;
-                  }
-                })
-              }
-              className="chess-button"
-            >
-              <RetweetOutlined />
-            </button>
-          </Tooltip>
-        </div>
+        <ActionButtons
+          rows={rows}
+          positionObject={positionObject}
+          setPositionObject={setPositionObject}
+          list={list}
+          setList={setList}
+          setBoardSide={setBoardSide}
+        />
       </div>
 
       <div
@@ -167,7 +100,7 @@ export const Chess = () => {
           const colorArray = isEven ? ["#99a", "#445"] : ["#445", "#99a"];
 
           return (
-            <div style={{ display: "flex", flexDirection:"row" }}>
+            <div style={{ display: "flex", flexDirection: "row" }}>
               {row.map((square: string, index) => {
                 const colorIndex = index % 2 === 0 ? 0 : 1;
                 return (
@@ -203,7 +136,6 @@ export const Chess = () => {
                           height: "70px",
                           width: "70px",
                           cursor: "grab",
-                          gap:"0",
 
                           rotate:
                             boardSide === BoardSideType.Black
