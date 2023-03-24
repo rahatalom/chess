@@ -3,15 +3,16 @@ import React from "react";
 import { BoardSideType } from "./Chess";
 import { imageObj } from "./constants";
 import "./ChessBoard.css";
+import { ChessPiece } from "./types";
 
 interface ChessBoardProps {
   rows: string[][];
-  positionObject: Record<string, string>;
+  positionObject: Record<string, ChessPiece>
   setPositionObject: React.Dispatch<
-    React.SetStateAction<Record<string, string>>
+    React.SetStateAction<Record<string, ChessPiece>>
   >;
-  list: Record<string, string>[];
-  setList: React.Dispatch<React.SetStateAction<Record<string, string>[]>>;
+  list: Record<string, ChessPiece>[];
+  setList: React.Dispatch<React.SetStateAction<Record<string, ChessPiece>[]>>;
   boardSide: BoardSideType;
 }
 
@@ -88,12 +89,15 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       {rows.map((row, index) => {
         const isEven = index % 2 === 0;
         const colorArray = isEven ? ["#99a", "#445"] : ["#445", "#99a"];
+        
 
         return (
           <div className="chess-board-row">
             {row.map((square: string, index) => {
               const colorIndex = index % 2 === 0 ? 0 : 1;
               const squareColor = colorArray[colorIndex];
+              const piece: ChessPiece = positionObject[square]
+              
               return (
                 <div
                   className="chess-board-piece-container"
@@ -118,7 +122,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                         "chess-board-piece-rotated":
                           boardSide === BoardSideType.Black,
                       })}
-                      src={imageObj[positionObject[square]]}
+                      src={imageObj[piece]}
                       id={square}
                       alt={imageObj.BKnight}
                     />

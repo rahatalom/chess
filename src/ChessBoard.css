@@ -1,3 +1,18 @@
+.chess-board {
+  display: block;
+  height: fit-content;
+  width: fit-content;
+  border: 10px solid rgba(68, 68, 85, 0.8);
+}
+
+.chess-board-rotated {
+  display: block;
+  height: fit-content;
+  width: fit-content;
+  border: 10px solid rgba(68, 68, 85, 0.8);
+  rotate: 180deg;
+}
+
 .chess-board-row {
   display: flex;
   flex-direction: row;

@@ -1,4 +1,5 @@
 import { letters, nums } from "./constants";
+import { ChessPiece } from "./types";
 
 export const getSquares = () => {
   let squares = [];
@@ -25,7 +26,7 @@ export const getRows = (squares: Array<string>) => {
 };
 
 export const getInitialPosition = (rows: string[][]) => {
-  const initialPositionObject: Record<string, string> = {};
+  const initialPositionObject: Record<string, ChessPiece> = {};
 
   rows
     .join(",")
