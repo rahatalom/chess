@@ -1,0 +1,27 @@
+.chess-board-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.chess-board-piece-container {
+  height: 60px;
+  width: 60px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chess-board-piece {
+  height: 70px;
+  width: 70px;
+  cursor: grab;
+}
+
+.chess-board-piece-rotated {
+  rotate: 180deg;
+}
+
+.chess-board-empty-square {
+  height: 70px;
+  width: 70px;
+}

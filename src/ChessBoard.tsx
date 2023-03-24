@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React from "react";
 import { BoardSideType } from "./Chess";
 import { ImageObj } from "./constants";
+import "./ChessBoard.css";
 
 interface ChessBoardProps {
   rows: string[][];
@@ -89,14 +90,14 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         const colorArray = isEven ? ["#99a", "#445"] : ["#445", "#99a"];
 
         return (
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div className="chess-board-row">
             {row.map((square: string, index) => {
               const colorIndex = index % 2 === 0 ? 0 : 1;
               return (
                 <div
+                  className="chess-board-piece-container"
                   onDragStart={(e) => {
                     const id = Object.values(e.target)[1].id;
-
                     setSourceId(id);
                   }}
                   onDragEnd={() => {
@@ -105,11 +106,6 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={(e) => onDrop(e)}
                   style={{
-                    height: "60px",
-                    width: "60px",
-                    display: "inline-flex",
-                    justifyContent: "center",
-                    alignItems: "center",
                     backgroundColor: colorArray[colorIndex],
                     color: !positionObject[square]
                       ? colorArray[colorIndex]
@@ -119,28 +115,16 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                 >
                   {positionObject[square] ? (
                     <img
+                      className={classNames("chess-board-piece", {
+                        "chess-board-piece-rotated":
+                          boardSide === BoardSideType.Black,
+                      })}
                       src={ImageObj[positionObject[square]]}
                       id={square}
-                      style={{
-                        height: "70px",
-                        width: "70px",
-                        cursor: "grab",
-
-                        rotate:
-                          boardSide === BoardSideType.Black
-                            ? "180deg"
-                            : undefined,
-                      }}
                       alt={ImageObj.BKnight}
                     />
                   ) : (
-                    <div
-                      style={{
-                        height: "70px",
-                        width: "70px",
-                      }}
-                      id={square}
-                    >
+                    <div className="chess-board-empty-square" id={square}>
                       {square}
                     </div>
                   )}
