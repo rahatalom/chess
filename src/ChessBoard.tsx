@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import { BoardSideType } from "./Chess";
-import { ImageObj } from "./constants";
+import { imageObj } from "./constants";
 import "./ChessBoard.css";
 
 interface ChessBoardProps {
@@ -93,6 +93,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
           <div className="chess-board-row">
             {row.map((square: string, index) => {
               const colorIndex = index % 2 === 0 ? 0 : 1;
+              const squareColor = colorArray[colorIndex];
               return (
                 <div
                   className="chess-board-piece-container"
@@ -106,11 +107,9 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={(e) => onDrop(e)}
                   style={{
-                    backgroundColor: colorArray[colorIndex],
-                    color: !positionObject[square]
-                      ? colorArray[colorIndex]
-                      : undefined,
-                    border: `${colorArray[colorIndex]} 10px solid`,
+                    backgroundColor: squareColor,
+                    color: !positionObject[square] ? squareColor : undefined,
+                    border: `${squareColor} 10px solid`,
                   }}
                 >
                   {positionObject[square] ? (
@@ -119,14 +118,12 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                         "chess-board-piece-rotated":
                           boardSide === BoardSideType.Black,
                       })}
-                      src={ImageObj[positionObject[square]]}
+                      src={imageObj[positionObject[square]]}
                       id={square}
-                      alt={ImageObj.BKnight}
+                      alt={imageObj.BKnight}
                     />
                   ) : (
-                    <div className="chess-board-empty-square" id={square}>
-                      {square}
-                    </div>
+                    <div className="chess-board-empty-square" id={square} />
                   )}
                 </div>
               );

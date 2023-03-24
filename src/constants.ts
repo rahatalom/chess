@@ -1,7 +1,7 @@
 export const nums = [1, 2, 3, 4, 5, 6, 7, 8];
 export const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
-export const ImageObj: any = {
+export const imageObj: any = {
   WPawn:
     "https://images.chesscomfiles.com/chess-themes/pieces/light/100/wp.png",
   WKnight:
