@@ -86,6 +86,17 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     [getIsSameColor, positionObject, setPositionObject, sourceId]
   );
 
+  const isPromotionPopoverVisible = React.useCallback(
+    (square: string, piece: ChessPiece) => {
+      return (
+        (square[1] === "1" || square[1] === "8") &&
+        (piece === "WPawn" || piece === "BPawn") &&
+        !pieceSelected
+      );
+    },
+    [pieceSelected]
+  );
+
   React.useEffect(() => {
     if (pieceSelected) {
       setPositionObject({
@@ -144,11 +155,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                   {positionObject[square] ? (
                     <Popover
                       color={lightSquareColor}
-                      open={
-                        (square[1] === "1" || square[1] === "8") &&
-                        (piece === "WPawn" || piece === "BPawn") &&
-                        !pieceSelected
-                      }
+                      open={isPromotionPopoverVisible(square, piece)}
                       content={getPopoverContent(
                         piece,
                         setSelectedPromotionPiece,
