@@ -1,13 +1,15 @@
 import classNames from "classnames";
 import React from "react";
-import { BoardSideType } from "./Chess";
-import { imageObj } from "./constants";
+import { BoardSideType } from "../Chess";
+import { darkSquareColor, imageObj, lightSquareColor } from "../constants";
 import "./ChessBoard.css";
-import { ChessPiece } from "./types";
+import { ChessPiece } from "../types";
+import { Popover } from "antd";
+import { getPopoverContent } from "./getPopoverContent";
 
 interface ChessBoardProps {
   rows: string[][];
-  positionObject: Record<string, ChessPiece>
+  positionObject: Record<string, ChessPiece>;
   setPositionObject: React.Dispatch<
     React.SetStateAction<Record<string, ChessPiece>>
   >;
@@ -63,6 +65,10 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     sourceId,
   ]);
 
+  const [selectedPromotionPiece, setSelectedPromotionPiece] =
+    React.useState<ChessPiece>("BKnight");
+  const [pieceSelected, setPieceSelected] = React.useState<boolean>(false);
+
   const onDrop = React.useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
       const id = Object.values(e.target)[1].id;
@@ -80,6 +86,24 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     [getIsSameColor, positionObject, setPositionObject, sourceId]
   );
 
+  React.useEffect(() => {
+    if (pieceSelected) {
+      setPositionObject({
+        ...positionObject,
+        [destinationId]: selectedPromotionPiece,
+      });
+
+      setPieceSelected(false);
+      setSelectedPromotionPiece("BKnight");
+    }
+  }, [
+    destinationId,
+    pieceSelected,
+    positionObject,
+    selectedPromotionPiece,
+    setPositionObject,
+  ]);
+
   return (
     <div
       className={classNames("chess-board", {
@@ -88,16 +112,17 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     >
       {rows.map((row, index) => {
         const isEven = index % 2 === 0;
-        const colorArray = isEven ? ["#99a", "#445"] : ["#445", "#99a"];
-        
+        const colorArray = isEven
+          ? [lightSquareColor, darkSquareColor]
+          : [darkSquareColor, lightSquareColor];
 
         return (
           <div className="chess-board-row">
             {row.map((square: string, index) => {
               const colorIndex = index % 2 === 0 ? 0 : 1;
               const squareColor = colorArray[colorIndex];
-              const piece: ChessPiece = positionObject[square]
-              
+              const piece: ChessPiece = positionObject[square];
+
               return (
                 <div
                   className="chess-board-piece-container"
@@ -117,15 +142,29 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                   }}
                 >
                   {positionObject[square] ? (
-                    <img
-                      className={classNames("chess-board-piece", {
-                        "chess-board-piece-rotated":
-                          boardSide === BoardSideType.Black,
-                      })}
-                      src={imageObj[piece]}
-                      id={square}
-                      alt={imageObj.BKnight}
-                    />
+                    <Popover
+                      color={lightSquareColor}
+                      open={
+                        (square[1] === "1" || square[1] === "8") &&
+                        (piece === "WPawn" || piece === "BPawn") &&
+                        !pieceSelected
+                      }
+                      content={getPopoverContent(
+                        piece,
+                        setSelectedPromotionPiece,
+                        setPieceSelected
+                      )}
+                    >
+                      <img
+                        className={classNames("chess-board-piece", {
+                          "chess-board-piece-rotated":
+                            boardSide === BoardSideType.Black,
+                        })}
+                        src={imageObj[piece]}
+                        id={square}
+                        alt={imageObj.BKnight}
+                      />
+                    </Popover>
                   ) : (
                     <div className="chess-board-empty-square" id={square} />
                   )}

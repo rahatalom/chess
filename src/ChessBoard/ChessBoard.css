@@ -40,3 +40,15 @@
   height: 70px;
   width: 70px;
 }
+
+.chess-board-promotion-piece {
+  height: 70px;
+  width: 70px;
+}
+
+.chess-promotion-radio-button{
+  height: fit-content;
+  width: fit-content; 
+  background-color: #99a !important;
+  border: none
+}

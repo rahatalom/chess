@@ -3,6 +3,9 @@ import { ChessPiece, Url } from "./types";
 export const nums = [1, 2, 3, 4, 5, 6, 7, 8];
 export const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
+export const lightSquareColor = "#99a"
+export const darkSquareColor = "#445"
+
 export const imageObj: Record<ChessPiece, Url> = {
   WPawn:
     "https://images.chesscomfiles.com/chess-themes/pieces/light/100/wp.png",
