@@ -17,6 +17,7 @@ export const getPopoverContent = (
         {arrayOfPiece.map((promotionPiece, index) => (
           <Radio.Button
             className="chess-promotion-radio-button"
+            defaultChecked={false}
             value={index}
             onClick={() => {
               setSelectedPromotionPiece(promotionPiece);
