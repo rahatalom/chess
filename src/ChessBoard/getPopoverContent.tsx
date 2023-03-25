@@ -27,6 +27,7 @@ export const getPopoverContent = (
               className="chess-board-promotion-piece"
               src={imageObj[promotionPiece]}
               alt={imageObj.BKnight}
+              draggable={false}
             />
           </Radio.Button>
         ))}
