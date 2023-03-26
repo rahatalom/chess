@@ -45,7 +45,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   );
 
   const onDragEnd = React.useCallback(() => {
-    if (IsSameColor) {
+    if (IsSameColor || !destinationId) {
       return;
     }
     if (destinationId.length) {
@@ -55,15 +55,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       setPositionObject(filteredObj);
       setList([...list, filteredObj]);
     }
-  }, [
-    IsSameColor,
-    destinationId.length,
-    list,
-    positionObject,
-    setList,
-    setPositionObject,
-    sourceId,
-  ]);
+  }, [IsSameColor, destinationId, list, positionObject, setList, setPositionObject, sourceId]);
 
   const [selectedPromotionPiece, setSelectedPromotionPiece] =
     React.useState<ChessPiece>("BKnight");
