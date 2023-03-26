@@ -1,20 +1,21 @@
 import classNames from "classnames";
 import React from "react";
 import { BoardSideType } from "../Chess";
-import { darkSquareColor, imageObj, lightSquareColor } from "../constants";
+import { darkSquareColor, lightSquareColor } from "../constants";
 import "./ChessBoard.css";
-import { ChessPiece } from "../types";
-import { Popover } from "antd";
-import { getPopoverContent } from "./getPopoverContent";
+import { ChessPieceType } from "../types";
+import { ChessPiece } from "./ChessPiece";
 
 interface ChessBoardProps {
   rows: string[][];
-  positionObject: Record<string, ChessPiece>;
+  positionObject: Record<string, ChessPieceType>;
   setPositionObject: React.Dispatch<
-    React.SetStateAction<Record<string, ChessPiece>>
+    React.SetStateAction<Record<string, ChessPieceType>>
   >;
-  list: Record<string, ChessPiece>[];
-  setList: React.Dispatch<React.SetStateAction<Record<string, ChessPiece>[]>>;
+  list: Record<string, ChessPieceType>[];
+  setList: React.Dispatch<
+    React.SetStateAction<Record<string, ChessPieceType>[]>
+  >;
   boardSide: BoardSideType;
 }
 
@@ -29,6 +30,10 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   const [sourceId, setSourceId] = React.useState("");
   const [destinationId, setDestinationId] = React.useState("");
   const [IsSameColor, setIsSameColor] = React.useState(false);
+
+  const [selectedPromotionPiece, setSelectedPromotionPiece] =
+    React.useState<ChessPieceType>("BKnight");
+  const [pieceSelected, setPieceSelected] = React.useState<boolean>(false);
 
   const getIsSameColor = React.useCallback(
     (id: string) => {
@@ -55,11 +60,15 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       setPositionObject(filteredObj);
       setList([...list, filteredObj]);
     }
-  }, [IsSameColor, destinationId, list, positionObject, setList, setPositionObject, sourceId]);
-
-  const [selectedPromotionPiece, setSelectedPromotionPiece] =
-    React.useState<ChessPiece>("BKnight");
-  const [pieceSelected, setPieceSelected] = React.useState<boolean>(false);
+  }, [
+    IsSameColor,
+    destinationId,
+    list,
+    positionObject,
+    setList,
+    setPositionObject,
+    sourceId,
+  ]);
 
   const onDrop = React.useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
@@ -76,17 +85,6 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       });
     },
     [getIsSameColor, positionObject, setPositionObject, sourceId]
-  );
-
-  const isPromotionPopoverVisible = React.useCallback(
-    (square: string, piece: ChessPiece) => {
-      return (
-        (square[1] === "1" || square[1] === "8") &&
-        (piece === "WPawn" || piece === "BPawn") &&
-        !pieceSelected
-      );
-    },
-    [pieceSelected]
   );
 
   React.useEffect(() => {
@@ -124,7 +122,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
             {row.map((square: string, index) => {
               const colorIndex = index % 2 === 0 ? 0 : 1;
               const squareColor = colorArray[colorIndex];
-              const piece: ChessPiece = positionObject[square];
+              const piece: ChessPieceType = positionObject[square];
 
               return (
                 <div
@@ -145,25 +143,14 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                   }}
                 >
                   {positionObject[square] ? (
-                    <Popover
-                      color={lightSquareColor}
-                      open={isPromotionPopoverVisible(square, piece)}
-                      content={getPopoverContent(
-                        piece,
-                        setSelectedPromotionPiece,
-                        setPieceSelected
-                      )}
-                    >
-                      <img
-                        className={classNames("chess-board-piece", {
-                          "chess-board-piece-rotated":
-                            boardSide === BoardSideType.Black,
-                        })}
-                        src={imageObj[piece]}
-                        id={square}
-                        alt={imageObj.BKnight}
-                      />
-                    </Popover>
+                    <ChessPiece
+                      piece={piece}
+                      square={square}
+                      boardSide={boardSide}
+                      pieceSelected={pieceSelected}
+                      setPieceSelected={setPieceSelected}
+                      setSelectedPromotionPiece={setSelectedPromotionPiece}
+                    />
                   ) : (
                     <div className="chess-board-empty-square" id={square} />
                   )}

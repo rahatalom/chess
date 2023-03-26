@@ -8,16 +8,16 @@ import React from "react";
 import { isEmpty } from "lodash";
 import { getInitialPosition } from "./utils";
 import { BoardSideType } from "./Chess";
-import { ChessPiece } from "./types";
+import { ChessPieceType } from "./types";
 
 
 
 interface ActionButtonsProps {
   rows: string[][];
-  positionObject:    Record<string, ChessPiece>
-  setPositionObject: React.Dispatch<React.SetStateAction<Record<string, ChessPiece>>>
-  list: Record<string, ChessPiece>[];
-  setList: React.Dispatch<React.SetStateAction<Record<string, ChessPiece>[]>>;
+  positionObject:    Record<string, ChessPieceType>
+  setPositionObject: React.Dispatch<React.SetStateAction<Record<string, ChessPieceType>>>
+  list: Record<string, ChessPieceType>[];
+  setList: React.Dispatch<React.SetStateAction<Record<string, ChessPieceType>[]>>;
   setBoardSide: React.Dispatch<React.SetStateAction<BoardSideType>>;
 }
 

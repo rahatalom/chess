@@ -1,13 +1,13 @@
 import { Radio } from "antd";
 import { imageObj } from "../constants";
-import { ChessPiece } from "../types";
+import { ChessPieceType } from "../types";
 
 export const getPopoverContent = (
-  piece: ChessPiece,
-  setSelectedPromotionPiece: React.Dispatch<React.SetStateAction<ChessPiece>>,
+  piece: ChessPieceType,
+  setSelectedPromotionPiece: React.Dispatch<React.SetStateAction<ChessPieceType>>,
   setPieceSelected: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  const arrayOfPiece: ChessPiece[] = piece.startsWith("B")
+  const arrayOfPiece: ChessPieceType[] = piece.startsWith("B")
     ? ["BKnight", "BBishop", "BRook", "BQueen"]
     : ["WKnight", "WBishop", "WRook", "WQueen"];
 

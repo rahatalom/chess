@@ -6,7 +6,7 @@ import { Typography } from "antd";
 import { getInitialPosition, getRows, getSquares } from "./utils";
 import { ActionButtons } from "./ActionButtons";
 import { ChessBoard } from "./ChessBoard/ChessBoard";
-import { ChessPiece } from "./types";
+import { ChessPieceType } from "./types";
 
 export enum BoardSideType {
   Black = "black",
@@ -18,11 +18,11 @@ export const Chess = () => {
 
   const rows = getRows(squares);
 
-  const [positionObject, setPositionObject] = React.useState<Record<string, ChessPiece>>(
+  const [positionObject, setPositionObject] = React.useState<Record<string, ChessPieceType>>(
     getInitialPosition(rows)
   );
 
-  const [list, setList] = React.useState<Record<string, ChessPiece>[]>([]);
+  const [list, setList] = React.useState<Record<string, ChessPieceType>[]>([]);
 
   const [boardSide, setBoardSide] = React.useState<BoardSideType>(
     BoardSideType.White

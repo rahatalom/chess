@@ -1,4 +1,4 @@
-import { ChessPiece, Url } from "./types";
+import { ChessPieceType, Url } from "./types";
 
 export const nums = [1, 2, 3, 4, 5, 6, 7, 8];
 export const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
@@ -6,7 +6,7 @@ export const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
 export const lightSquareColor = "#99a"
 export const darkSquareColor = "#445"
 
-export const imageObj: Record<ChessPiece, Url> = {
+export const imageObj: Record<ChessPieceType, Url> = {
   WPawn:
     "https://images.chesscomfiles.com/chess-themes/pieces/light/100/wp.png",
   WKnight:
