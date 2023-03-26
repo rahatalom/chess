@@ -140,7 +140,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                   onDrop={(e) => onDrop(e)}
                   style={{
                     backgroundColor: squareColor,
-                    color: !positionObject[square] ? squareColor : undefined,
+                    color: !piece ? squareColor : undefined,
                     border: `${squareColor} 10px solid`,
                   }}
                 >
