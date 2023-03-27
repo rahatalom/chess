@@ -1,11 +1,10 @@
 import classNames from "classnames";
 import React from "react";
 import { BoardSideType } from "../Chess";
-import { darkSquareColor, letters, lightSquareColor } from "../constants";
+import { darkSquareColor,  lightSquareColor } from "../constants";
 import "./ChessBoard.css";
 import { ChessPieceType } from "../types";
 import { ChessPiece } from "./ChessPiece";
-import { pull } from "lodash";
 import { getPossibleMoves } from "./utils";
 
 interface ChessBoardProps {
