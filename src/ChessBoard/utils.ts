@@ -1,4 +1,4 @@
-import { letters } from "../constants";
+import { letters, nums } from "../constants";
 import { ChessPieceType } from "../types";
 
 export const getPossibleMoves = (
@@ -16,8 +16,8 @@ export const getPossibleMoves = (
       if (rank === 2) {
         possibleMoves.push(column + (rank + 2));
       }
-      possibleMoves = possibleMoves.filter((sqr) =>
-        !positionObject[sqr]?.startsWith("B")
+      possibleMoves = possibleMoves.filter(
+        (sqr) => !positionObject[sqr]?.startsWith("B")
       );
       const index = letters.indexOf(column);
       const captureSquares = [
@@ -34,8 +34,8 @@ export const getPossibleMoves = (
       if (rank === 7) {
         possibleMoves.push(column + (rank - 2));
       }
-      possibleMoves = possibleMoves.filter((sqr) =>
-        !positionObject[sqr]?.startsWith("W")
+      possibleMoves = possibleMoves.filter(
+        (sqr) => !positionObject[sqr]?.startsWith("W")
       );
 
       const index = letters.indexOf(column);
@@ -48,5 +48,13 @@ export const getPossibleMoves = (
 
       return possibleMoves;
     }
+  }
+  if (movingPiece?.endsWith("Rook")) {
+    const horizontalRow = nums.map((num) => column + num);
+    const verticalRow = letters.map((letter) => letter + rank);
+
+    possibleMoves = [...horizontalRow, ...verticalRow];
+
+    return possibleMoves;
   }
 };
