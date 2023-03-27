@@ -1,10 +1,12 @@
 import classNames from "classnames";
 import React from "react";
 import { BoardSideType } from "../Chess";
-import { darkSquareColor, lightSquareColor } from "../constants";
+import { darkSquareColor, letters, lightSquareColor } from "../constants";
 import "./ChessBoard.css";
 import { ChessPieceType } from "../types";
 import { ChessPiece } from "./ChessPiece";
+import { pull } from "lodash";
+import { getPossibleMoves } from "./utils";
 
 interface ChessBoardProps {
   rows: string[][];
@@ -49,10 +51,21 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     [positionObject, sourceId]
   );
 
+  const possibleMoves = React.useMemo(
+    () => getPossibleMoves(positionObject, sourceId),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sourceId]
+  );
+
   const onDragEnd = React.useCallback(() => {
     if (IsSameColor || !destinationId) {
       return;
     }
+
+    if (!possibleMoves?.includes(destinationId) && possibleMoves) {
+      return;
+    }
+
     if (destinationId.length) {
       const filteredObj = Object.fromEntries(
         Object.entries(positionObject).filter((entry) => entry[0] !== sourceId)
@@ -65,6 +78,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     destinationId,
     list,
     positionObject,
+    possibleMoves,
     setList,
     setPositionObject,
     sourceId,
@@ -79,12 +93,16 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         return;
       }
 
+      if (!possibleMoves?.includes(id) && possibleMoves) {
+        return;
+      }
+
       setPositionObject({
         ...positionObject,
         [id]: positionObject[sourceId],
       });
     },
-    [getIsSameColor, positionObject, setPositionObject, sourceId]
+    [getIsSameColor, positionObject, possibleMoves, setPositionObject, sourceId]
   );
 
   React.useEffect(() => {
@@ -104,6 +122,8 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     selectedPromotionPiece,
     setPositionObject,
   ]);
+
+  console.log(possibleMoves);
 
   return (
     <div
