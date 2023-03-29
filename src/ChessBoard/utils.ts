@@ -1,3 +1,4 @@
+import { compact } from "lodash";
 import { letters, nums } from "../constants";
 import { ChessPieceType } from "../types";
 
@@ -6,6 +7,11 @@ export const getPossibleMoves = (
   sourceId: string
 ) => {
   const movingPiece = positionObject[sourceId];
+  if(!movingPiece){
+    return []
+  }
+
+  const color = movingPiece[0]
   let possibleMoves: string[] = [];
   const column = sourceId[0];
   const rank = +sourceId[1];
@@ -23,9 +29,9 @@ export const getPossibleMoves = (
       const captureSquares = [
         letters[index + 1] + (rank + 1),
         letters[index - 1] + (rank + 1),
-      ].filter((sqr) => sqr && positionObject[sqr]?.startsWith("B"));
+      ].filter((sqr) => positionObject[sqr]?.startsWith("B"));
 
-      possibleMoves = [...possibleMoves, ...captureSquares];
+      possibleMoves = compact([...possibleMoves, ...captureSquares]);
 
       return possibleMoves;
     }
@@ -42,16 +48,30 @@ export const getPossibleMoves = (
       const captureSquares = [
         letters[index + 1] + (rank - 1),
         letters[index - 1] + (rank - 1),
-      ].filter((sqr) => sqr && positionObject[sqr]?.startsWith("W"));
+      ].filter((sqr) => positionObject[sqr]?.startsWith("W"));
 
-      possibleMoves = [...possibleMoves, ...captureSquares];
+      possibleMoves = compact([...possibleMoves, ...captureSquares]);
 
       return possibleMoves;
     }
   }
   if (movingPiece?.endsWith("Rook")) {
-    const horizontalRow = nums.map((num) => column + num);
-    const verticalRow = letters.map((letter) => letter + rank);
+    let verticalRow = nums.map((num) => column + num)
+    let horizontalRow = letters.map((letter) => letter + rank)
+
+    const vObstaclePosition = verticalRow.findIndex((sqr) => positionObject[sqr]?.startsWith(color) && positionObject[sqr] !== movingPiece)
+    const hObstaclePosition = horizontalRow.findIndex((sqr) => positionObject[sqr]?.startsWith(color) && positionObject[sqr] !== movingPiece)
+    if(vObstaclePosition !== -1){
+      const v1 = verticalRow.slice(0,vObstaclePosition)
+      const v2 = verticalRow.slice(vObstaclePosition+1)
+      verticalRow = v1.includes(sourceId)? v1: v2
+    }
+
+    if(hObstaclePosition !== -1){
+      const h1 = horizontalRow.slice(0,hObstaclePosition)
+      const h2 = horizontalRow.slice(hObstaclePosition+1)
+      horizontalRow = h1.includes(sourceId)? h1: h2
+    }
 
     possibleMoves = [...horizontalRow, ...verticalRow];
 

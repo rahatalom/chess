@@ -1,11 +1,13 @@
 import classNames from "classnames";
 import React from "react";
 import { BoardSideType } from "../Chess";
-import { darkSquareColor,  lightSquareColor } from "../constants";
+import { darkSquareColor, lightSquareColor } from "../constants";
 import "./ChessBoard.css";
 import { ChessPieceType } from "../types";
 import { ChessPiece } from "./ChessPiece";
 import { getPossibleMoves } from "./utils";
+import { getInitialPosition } from "../utils";
+import { isEqual } from "lodash";
 
 interface ChessBoardProps {
   rows: string[][];
@@ -122,7 +124,12 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     setPositionObject,
   ]);
 
-  console.log(possibleMoves);
+  React.useEffect(() => {
+    if (isEqual(positionObject, getInitialPosition(rows))) {
+      setSourceId("");
+      setDestinationId("");
+    }
+  }, [positionObject, rows]);
 
   return (
     <div
