@@ -22,6 +22,11 @@ interface ChessBoardProps {
   boardSide: BoardSideType;
 }
 
+enum TurnType {
+  Black = "B",
+  White = "W",
+}
+
 export const ChessBoard: React.FC<ChessBoardProps> = ({
   rows,
   positionObject,
@@ -33,6 +38,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   const [sourceId, setSourceId] = React.useState("");
   const [destinationId, setDestinationId] = React.useState("");
   const [IsSameColor, setIsSameColor] = React.useState(false);
+  const [turn, setTurn] = React.useState<TurnType>(TurnType.White);
 
   const [selectedPromotionPiece, setSelectedPromotionPiece] =
     React.useState<ChessPieceType>("BKnight");
@@ -73,6 +79,13 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       );
       setPositionObject(filteredObj);
       setList([...list, filteredObj]);
+      setTurn((value) => {
+        if (value === TurnType.White) {
+          return TurnType.Black;
+        } else {
+          return TurnType.White;
+        }
+      });
     }
   }, [
     IsSameColor,
@@ -128,6 +141,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     if (isEqual(positionObject, getInitialPosition(rows))) {
       setSourceId("");
       setDestinationId("");
+      setTurn(TurnType.White);
     }
   }, [positionObject, rows]);
 
@@ -155,6 +169,11 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                   className="chess-board-piece-container"
                   onDragStart={(e) => {
                     const id = Object.values(e.target)[1].id;
+                    if (positionObject[id][0] !== turn) {
+                      setSourceId("");
+                      setDestinationId("");
+                      return;
+                    }
                     setSourceId(id);
                   }}
                   onDragEnd={() => {
