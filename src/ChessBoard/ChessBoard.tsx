@@ -36,14 +36,14 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
 }) => {
   const [sourceId, setSourceId] = React.useState("");
   const [destinationId, setDestinationId] = React.useState("");
-  const [isPieceCaptureValid, setIsPieceCaptureValid] = React.useState(false);
+  const [isPieceCaptureInvalid, setIsPieceCaptureInvalid] = React.useState(false);
   const [turn, setTurn] = React.useState<TurnType>(TurnType.White);
 
   const [selectedPromotionPiece, setSelectedPromotionPiece] =
     React.useState<ChessPieceType>("BKnight");
   const [pieceSelected, setPieceSelected] = React.useState<boolean>(false);
 
-  const getIsPieceCaptureValid = React.useCallback(
+  const getIsPieceCaptureInvalid = React.useCallback(
     (id: string) => {
       if (!positionObject[id]) {
         return false;
@@ -66,7 +66,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   // );
 
   const onDragEnd = React.useCallback(() => {
-    if (isPieceCaptureValid || !destinationId || sourceId === "") {
+    if (isPieceCaptureInvalid || !destinationId || sourceId === "") {
       return;
     }
 
@@ -89,7 +89,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       });
     }
   }, [
-    isPieceCaptureValid,
+    isPieceCaptureInvalid,
     destinationId,
     list,
     positionObject,
@@ -102,8 +102,8 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     (e: React.DragEvent<HTMLDivElement>) => {
       const id = Object.values(e.target)[1].id;
       setDestinationId(id);
-      setIsPieceCaptureValid(getIsPieceCaptureValid(id));
-      if (getIsPieceCaptureValid(id)) {
+      setIsPieceCaptureInvalid(getIsPieceCaptureInvalid(id));
+      if (getIsPieceCaptureInvalid(id)) {
         return;
       }
 
@@ -116,7 +116,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         [id]: positionObject[sourceId],
       });
     },
-    [getIsPieceCaptureValid, positionObject, setPositionObject, sourceId]
+    [getIsPieceCaptureInvalid, positionObject, setPositionObject, sourceId]
   );
 
   React.useEffect(() => {
