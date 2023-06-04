@@ -5,7 +5,6 @@ import { darkSquareColor, lightSquareColor } from "../constants";
 import "./ChessBoard.css";
 import { ChessPieceType } from "../types";
 import { ChessPiece } from "./ChessPiece";
-import { getPossibleMoves } from "./utils";
 import { getInitialPosition } from "../utils";
 import { isEqual } from "lodash";
 
@@ -37,14 +36,14 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
 }) => {
   const [sourceId, setSourceId] = React.useState("");
   const [destinationId, setDestinationId] = React.useState("");
-  const [IsSameColor, setIsSameColor] = React.useState(false);
+  const [isPieceCaptureValid, setIsPieceCaptureValid] = React.useState(false);
   const [turn, setTurn] = React.useState<TurnType>(TurnType.White);
 
   const [selectedPromotionPiece, setSelectedPromotionPiece] =
     React.useState<ChessPieceType>("BKnight");
   const [pieceSelected, setPieceSelected] = React.useState<boolean>(false);
 
-  const getIsSameColor = React.useCallback(
+  const getIsPieceCaptureValid = React.useCallback(
     (id: string) => {
       if (!positionObject[id]) {
         return false;
@@ -52,26 +51,28 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       return (
         (positionObject[sourceId][0] === "W" &&
           positionObject[id][0] === "W") ||
-        (positionObject[sourceId][0] === "B" && positionObject[id][0] === "B")
+        (positionObject[sourceId][0] === "B" &&
+          positionObject[id][0] === "B") ||
+        positionObject[id].endsWith("King")
       );
     },
     [positionObject, sourceId]
   );
 
-  const possibleMoves = React.useMemo(
-    () => getPossibleMoves(positionObject, sourceId),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [sourceId]
-  );
+  // const possibleMoves = React.useMemo(
+  //   () => getPossibleMoves(positionObject, sourceId),
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [sourceId]
+  // );
 
   const onDragEnd = React.useCallback(() => {
-    if (IsSameColor || !destinationId) {
+    if (isPieceCaptureValid || !destinationId || sourceId === "") {
       return;
     }
 
-    if (!possibleMoves?.includes(destinationId) && possibleMoves) {
-      return;
-    }
+    // if (!possibleMoves?.includes(destinationId) && possibleMoves) {
+    //   return;
+    // }
 
     if (destinationId.length) {
       const filteredObj = Object.fromEntries(
@@ -88,11 +89,10 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       });
     }
   }, [
-    IsSameColor,
+    isPieceCaptureValid,
     destinationId,
     list,
     positionObject,
-    possibleMoves,
     setList,
     setPositionObject,
     sourceId,
@@ -102,21 +102,21 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     (e: React.DragEvent<HTMLDivElement>) => {
       const id = Object.values(e.target)[1].id;
       setDestinationId(id);
-      setIsSameColor(getIsSameColor(id));
-      if (getIsSameColor(id)) {
+      setIsPieceCaptureValid(getIsPieceCaptureValid(id));
+      if (getIsPieceCaptureValid(id)) {
         return;
       }
 
-      if (!possibleMoves?.includes(id) && possibleMoves) {
-        return;
-      }
+      // if (!possibleMoves?.includes(id) && possibleMoves) {
+      //   return;
+      // }
 
       setPositionObject({
         ...positionObject,
         [id]: positionObject[sourceId],
       });
     },
-    [getIsSameColor, positionObject, possibleMoves, setPositionObject, sourceId]
+    [getIsPieceCaptureValid, positionObject, setPositionObject, sourceId]
   );
 
   React.useEffect(() => {
