@@ -7,6 +7,7 @@ import { ChessPieceType } from "../types";
 import { ChessPiece } from "./ChessPiece";
 import { getInitialPosition } from "../utils";
 import { isEqual } from "lodash";
+import { getPossibleMoves } from "./utils";
 
 interface ChessBoardProps {
   rows: string[][];
@@ -19,6 +20,8 @@ interface ChessBoardProps {
     React.SetStateAction<Record<string, ChessPieceType>[]>
   >;
   boardSide: BoardSideType;
+  moveList: string[];
+  setMoveList: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 enum TurnType {
@@ -33,15 +36,20 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   list,
   setList,
   boardSide,
+  moveList,
+  setMoveList,
 }) => {
   const [sourceId, setSourceId] = React.useState("");
   const [destinationId, setDestinationId] = React.useState("");
-  const [isPieceCaptureInvalid, setIsPieceCaptureInvalid] = React.useState(false);
+  const [isPieceCaptureInvalid, setIsPieceCaptureInvalid] =
+    React.useState(false);
   const [turn, setTurn] = React.useState<TurnType>(TurnType.White);
 
   const [selectedPromotionPiece, setSelectedPromotionPiece] =
     React.useState<ChessPieceType>("BKnight");
   const [pieceSelected, setPieceSelected] = React.useState<boolean>(false);
+  const [enPassantDestinationSquare, setEnPassantDestinationSquare] =
+    React.useState<string | undefined>(undefined);
 
   const getIsPieceCaptureInvalid = React.useCallback(
     (id: string) => {
@@ -59,27 +67,50 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     [positionObject, sourceId]
   );
 
-  // const possibleMoves = React.useMemo(
-  //   () => getPossibleMoves(positionObject, sourceId),
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [sourceId]
-  // );
+  const possibleMoves = React.useMemo(
+    () =>
+      getPossibleMoves(
+        positionObject,
+        sourceId,
+        moveList,
+        setEnPassantDestinationSquare
+      ),
+    [moveList, positionObject, sourceId]
+  );
 
   const onDragEnd = React.useCallback(() => {
     if (isPieceCaptureInvalid || !destinationId || sourceId === "") {
       return;
     }
 
-    // if (!possibleMoves?.includes(destinationId) && possibleMoves) {
-    //   return;
-    // }
+    if (!possibleMoves?.includes(destinationId) && possibleMoves) {
+      return;
+    }
 
     if (destinationId.length) {
-      const filteredObj = Object.fromEntries(
+      let filteredObj = Object.fromEntries(
         Object.entries(positionObject).filter((entry) => entry[0] !== sourceId)
       );
+      if (destinationId === enPassantDestinationSquare) {
+        const enPessantCaptureSquare =
+          positionObject[sourceId] === "WPawn"
+            ? enPassantDestinationSquare[0] +
+              (+enPassantDestinationSquare[1] - 1)
+            : enPassantDestinationSquare[0] +
+              (+enPassantDestinationSquare[1] + 1);
+        filteredObj = Object.fromEntries(
+          Object.entries(filteredObj).filter(
+            (entry) => entry[0] !== enPessantCaptureSquare
+          )
+        );
+      }
+
       setPositionObject(filteredObj);
       setList([...list, filteredObj]);
+      setMoveList([
+        ...moveList,
+        sourceId + "-" + positionObject[sourceId] + "-" + destinationId,
+      ]);
       setTurn((value) => {
         if (value === TurnType.White) {
           return TurnType.Black;
@@ -87,15 +118,22 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
           return TurnType.White;
         }
       });
+      setEnPassantDestinationSquare(undefined);
+      setSourceId("");
+      setDestinationId("");
     }
   }, [
     isPieceCaptureInvalid,
     destinationId,
-    list,
-    positionObject,
-    setList,
-    setPositionObject,
     sourceId,
+    possibleMoves,
+    positionObject,
+    enPassantDestinationSquare,
+    setPositionObject,
+    setList,
+    list,
+    setMoveList,
+    moveList,
   ]);
 
   const onDrop = React.useCallback(
@@ -107,16 +145,22 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         return;
       }
 
-      // if (!possibleMoves?.includes(id) && possibleMoves) {
-      //   return;
-      // }
+      if (!possibleMoves?.includes(id) && possibleMoves) {
+        return;
+      }
 
       setPositionObject({
         ...positionObject,
         [id]: positionObject[sourceId],
       });
     },
-    [getIsPieceCaptureInvalid, positionObject, setPositionObject, sourceId]
+    [
+      getIsPieceCaptureInvalid,
+      positionObject,
+      possibleMoves,
+      setPositionObject,
+      sourceId,
+    ]
   );
 
   React.useEffect(() => {

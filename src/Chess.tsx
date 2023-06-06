@@ -23,6 +23,7 @@ export const Chess = () => {
   );
 
   const [list, setList] = React.useState<Record<string, ChessPieceType>[]>([]);
+  const [moveList,setMoveList] = React.useState<string[]>([])
 
   const [boardSide, setBoardSide] = React.useState<BoardSideType>(
     BoardSideType.White
@@ -39,6 +40,7 @@ export const Chess = () => {
           list={list}
           setList={setList}
           setBoardSide={setBoardSide}
+          setMoveList={setMoveList}
         />
       </div>
 
@@ -49,6 +51,8 @@ export const Chess = () => {
         list={list}
         setList={setList}
         boardSide={boardSide}
+        moveList={moveList}
+        setMoveList={setMoveList}
       />
     </div>
   );

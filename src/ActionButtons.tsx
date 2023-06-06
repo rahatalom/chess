@@ -19,6 +19,7 @@ interface ActionButtonsProps {
   list: Record<string, ChessPieceType>[];
   setList: React.Dispatch<React.SetStateAction<Record<string, ChessPieceType>[]>>;
   setBoardSide: React.Dispatch<React.SetStateAction<BoardSideType>>;
+  setMoveList: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -28,6 +29,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   list,
   setList,
   setBoardSide,
+  setMoveList
 }) => {
     document.onkeydown = function (e) {
         var keyCode = e.keyCode;
@@ -59,6 +61,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
           onClick={() => {
             setPositionObject(getInitialPosition(rows));
             setList([]);
+            setMoveList([])
           }}
         >
           ↺
