@@ -92,15 +92,18 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         Object.entries(positionObject).filter((entry) => entry[0] !== sourceId)
       );
       if (destinationId === enPassantDestinationSquare) {
-        const enPessantCaptureSquare =
+        const [enPassantColumn, enPassantRank] = [
+          enPassantDestinationSquare[0],
+          +enPassantDestinationSquare[1],
+        ];
+        const enPassantCaptureSquare =
           positionObject[sourceId] === "WPawn"
-            ? enPassantDestinationSquare[0] +
-              (+enPassantDestinationSquare[1] - 1)
-            : enPassantDestinationSquare[0] +
-              (+enPassantDestinationSquare[1] + 1);
+            ? enPassantColumn + (enPassantRank - 1)
+            : enPassantColumn + (enPassantRank + 1);
+            
         filteredObj = Object.fromEntries(
           Object.entries(filteredObj).filter(
-            (entry) => entry[0] !== enPessantCaptureSquare
+            (entry) => entry[0] !== enPassantCaptureSquare
           )
         );
       }

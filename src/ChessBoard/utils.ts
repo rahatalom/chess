@@ -18,8 +18,7 @@ export const getPossibleMoves = (
 
   // const color = movingPiece[0];
   let possibleMoves: string[] = [];
-  const column = sourceId[0];
-  const rank = +sourceId[1];
+  const [column, rank] = [sourceId[0], +sourceId[1]];
 
   if (movingPiece?.endsWith("Pawn")) {
     const index = letters.indexOf(column);
