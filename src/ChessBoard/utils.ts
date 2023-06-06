@@ -44,9 +44,9 @@ export const getPossibleMoves = (
       ].filter((sqr) => positionObject[sqr]);
 
       if (isEnPassantAvailable) {
-        const enPassantCaptureSquare = previousMoveArray[2][0] + 6;
-        setEnPassantDestinationSquare(enPassantCaptureSquare);
-        captureSquares.push(enPassantCaptureSquare);
+        const enPassantDestinationSquare = previousMoveArray[2][0] + 6;
+        setEnPassantDestinationSquare(enPassantDestinationSquare);
+        captureSquares.push(enPassantDestinationSquare);
       }
 
       possibleMoves = compact([...possibleMoves, ...captureSquares]);
@@ -70,9 +70,9 @@ export const getPossibleMoves = (
       ].filter((sqr) => positionObject[sqr]);
 
       if (isEnPassantAvailable) {
-        const enPassantCaptureSquare = previousMoveArray[2][0] + 3;
-        setEnPassantDestinationSquare(enPassantCaptureSquare);
-        captureSquares.push(enPassantCaptureSquare);
+        const enPassantDestinationSquare = previousMoveArray[2][0] + 3;
+        setEnPassantDestinationSquare(enPassantDestinationSquare);
+        captureSquares.push(enPassantDestinationSquare);
       }
 
       possibleMoves = compact([...possibleMoves, ...captureSquares]);
