@@ -52,16 +52,16 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     React.useState<string | undefined>(undefined);
 
   const getIsPieceCaptureInvalid = React.useCallback(
-    (id: string) => {
-      if (!positionObject[id]) {
+    (destination: string) => {
+      if (!positionObject[destination]) {
         return false;
       }
       return (
         (positionObject[sourceId][0] === "W" &&
-          positionObject[id][0] === "W") ||
+          positionObject[destination][0] === "W") ||
         (positionObject[sourceId][0] === "B" &&
-          positionObject[id][0] === "B") ||
-        positionObject[id].endsWith("King")
+          positionObject[destination][0] === "B") ||
+        positionObject[destination].endsWith("King")
       );
     },
     [positionObject, sourceId]
@@ -141,20 +141,20 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
 
   const onDrop = React.useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
-      const id = Object.values(e.target)[1].id;
-      setDestinationId(id);
-      setIsPieceCaptureInvalid(getIsPieceCaptureInvalid(id));
-      if (getIsPieceCaptureInvalid(id)) {
+      const destination = Object.values(e.target)[1].id;
+      setDestinationId(destination);
+      setIsPieceCaptureInvalid(getIsPieceCaptureInvalid(destination));
+      if (getIsPieceCaptureInvalid(destination)) {
         return;
       }
 
-      if (!possibleMoves?.includes(id) && possibleMoves) {
+      if (!possibleMoves?.includes(destination) && possibleMoves) {
         return;
       }
 
       setPositionObject({
         ...positionObject,
-        [id]: positionObject[sourceId],
+        [destination]: positionObject[sourceId],
       });
     },
     [
@@ -215,13 +215,13 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                 <div
                   className="chess-board-piece-container"
                   onDragStart={(e) => {
-                    const id = Object.values(e.target)[1].id;
-                    if (positionObject[id][0] !== turn) {
+                    const source = Object.values(e.target)[1].id;
+                    if (positionObject[source][0] !== turn) {
                       setSourceId("");
                       setDestinationId("");
                       return;
                     }
-                    setSourceId(id);
+                    setSourceId(source);
                   }}
                   onDragEnd={() => {
                     onDragEnd();
