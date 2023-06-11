@@ -21,7 +21,7 @@
   font-size: 45px;
   margin-right: 10px;
   margin-top: 7px;
-  color: rgb(142, 142, 142) !important;
+  color: rgb(50, 50, 50) !important;
 }
 
 .chess-button {
@@ -30,7 +30,7 @@
   font-size: 20px;
   font-weight: bolder;
   color: rgb(50, 50, 50);
-  background-color: darkgrey;
+  background-color: rgb(143, 143, 143);
 }
 
 .chess-button-container {
