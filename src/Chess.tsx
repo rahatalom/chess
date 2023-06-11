@@ -18,12 +18,14 @@ export const Chess = () => {
 
   const rows = getRows(squares);
 
-  const [positionObject, setPositionObject] = React.useState<Record<string, ChessPieceType>>(
-    getInitialPosition(rows)
-  );
+  const [positionObject, setPositionObject] = React.useState<
+    Record<string, ChessPieceType>
+  >(getInitialPosition(rows));
 
-  const [list, setList] = React.useState<Record<string, ChessPieceType>[]>([]);
-  const [moveList,setMoveList] = React.useState<string[]>([])
+  const [positionObjectList, setPositionObjectList] = React.useState<
+    Record<string, ChessPieceType>[]
+  >([]);
+  const [moveList, setMoveList] = React.useState<string[]>([]);
 
   const [boardSide, setBoardSide] = React.useState<BoardSideType>(
     BoardSideType.White
@@ -37,8 +39,8 @@ export const Chess = () => {
           rows={rows}
           positionObject={positionObject}
           setPositionObject={setPositionObject}
-          list={list}
-          setList={setList}
+          positionObjectList={positionObjectList}
+          setPositionObjectList={setPositionObjectList}
           setBoardSide={setBoardSide}
           setMoveList={setMoveList}
         />
@@ -48,8 +50,8 @@ export const Chess = () => {
         rows={rows}
         positionObject={positionObject}
         setPositionObject={setPositionObject}
-        list={list}
-        setList={setList}
+        positionObjectList={positionObjectList}
+        setPositionObjectList={setPositionObjectList}
         boardSide={boardSide}
         moveList={moveList}
         setMoveList={setMoveList}

@@ -15,8 +15,8 @@ interface ChessBoardProps {
   setPositionObject: React.Dispatch<
     React.SetStateAction<Record<string, ChessPieceType>>
   >;
-  list: Record<string, ChessPieceType>[];
-  setList: React.Dispatch<
+  positionObjectList: Record<string, ChessPieceType>[];
+  setPositionObjectList: React.Dispatch<
     React.SetStateAction<Record<string, ChessPieceType>[]>
   >;
   boardSide: BoardSideType;
@@ -33,8 +33,8 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   rows,
   positionObject,
   setPositionObject,
-  list,
-  setList,
+  positionObjectList,
+  setPositionObjectList,
   boardSide,
   moveList,
   setMoveList,
@@ -109,7 +109,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       }
 
       setPositionObject(filteredObj);
-      setList([...list, filteredObj]);
+      setPositionObjectList([...positionObjectList, filteredObj]);
       setMoveList([
         ...moveList,
         sourceId + "-" + positionObject[sourceId] + "-" + destinationId,
@@ -131,8 +131,8 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     positionObject,
     enPassantDestinationSquare,
     setPositionObject,
-    setList,
-    list,
+    setPositionObjectList,
+    positionObjectList,
     setMoveList,
     moveList,
   ]);
