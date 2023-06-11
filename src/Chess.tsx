@@ -5,8 +5,8 @@ import { Typography } from "antd";
 
 import { getInitialPosition, getRows, getSquares } from "./utils";
 import { ActionButtons } from "./ActionButtons";
-import { ChessBoard } from "./ChessBoard/ChessBoard";
 import { ChessPieceType } from "./types";
+import { ChessBoard } from "./ChessBoard";
 
 export enum BoardSideType {
   Black = "black",

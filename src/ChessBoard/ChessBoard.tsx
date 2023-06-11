@@ -219,11 +219,9 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                     }
                     setSourceId(source);
                   }}
-                  onDragEnd={() => {
-                    onDragEnd();
-                  }}
+                  onDragEnd={onDragEnd}
                   onDragOver={(e) => e.preventDefault()}
-                  onDrop={(e) => onDrop(e)}
+                  onDrop={onDrop}
                   style={{
                     backgroundColor: squareColor,
                     color: !piece ? squareColor : undefined,
