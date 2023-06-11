@@ -4,8 +4,9 @@ import { ChessPieceType } from "../types";
 
 export const getPopoverContent = (
   piece: ChessPieceType,
-  setSelectedPromotionPiece: React.Dispatch<React.SetStateAction<ChessPieceType>>,
-  setPieceSelected: React.Dispatch<React.SetStateAction<boolean>>
+  setSelectedPromotionPiece: React.Dispatch<
+    React.SetStateAction<ChessPieceType | undefined>
+  >
 ) => {
   const arrayOfPiece: ChessPieceType[] = piece.startsWith("B")
     ? ["BKnight", "BBishop", "BRook", "BQueen"]
@@ -21,7 +22,6 @@ export const getPopoverContent = (
             value={index}
             onClick={() => {
               setSelectedPromotionPiece(promotionPiece);
-              setPieceSelected(true);
             }}
           >
             <img

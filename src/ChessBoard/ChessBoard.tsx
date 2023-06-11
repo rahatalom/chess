@@ -45,9 +45,9 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     React.useState(false);
   const [turn, setTurn] = React.useState<TurnType>(TurnType.White);
 
-  const [selectedPromotionPiece, setSelectedPromotionPiece] =
-    React.useState<ChessPieceType>("BKnight");
-  const [pieceSelected, setPieceSelected] = React.useState<boolean>(false);
+  const [selectedPromotionPiece, setSelectedPromotionPiece] = React.useState<
+    ChessPieceType | undefined
+  >(undefined);
   const [enPassantDestinationSquare, setEnPassantDestinationSquare] =
     React.useState<string | undefined>(undefined);
 
@@ -100,7 +100,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
           positionObject[sourceId] === "WPawn"
             ? enPassantColumn + (enPassantRank - 1)
             : enPassantColumn + (enPassantRank + 1);
-            
+
         filteredObj = Object.fromEntries(
           Object.entries(filteredObj).filter(
             (entry) => entry[0] !== enPassantCaptureSquare
@@ -122,8 +122,6 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         }
       });
       setEnPassantDestinationSquare(undefined);
-      setSourceId("");
-      setDestinationId("");
     }
   }, [
     isPieceCaptureInvalid,
@@ -167,18 +165,16 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   );
 
   React.useEffect(() => {
-    if (pieceSelected) {
+    if (selectedPromotionPiece) {
       setPositionObject({
         ...positionObject,
-        [destinationId]: selectedPromotionPiece,
+        [destinationId]: selectedPromotionPiece as ChessPieceType,
       });
 
-      setPieceSelected(false);
-      setSelectedPromotionPiece("BKnight");
+      setSelectedPromotionPiece(undefined);
     }
   }, [
     destinationId,
-    pieceSelected,
     positionObject,
     selectedPromotionPiece,
     setPositionObject,
@@ -239,8 +235,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                       piece={piece}
                       square={square}
                       boardSide={boardSide}
-                      pieceSelected={pieceSelected}
-                      setPieceSelected={setPieceSelected}
+                      selectedPromotionPiece={selectedPromotionPiece}
                       setSelectedPromotionPiece={setSelectedPromotionPiece}
                     />
                   ) : (

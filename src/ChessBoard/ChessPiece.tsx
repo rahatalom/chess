@@ -8,21 +8,20 @@ import { getPopoverContent } from "./getPopoverContent";
 
 interface ChessPieceProps {
   piece: ChessPieceType;
-  pieceSelected: boolean;
+
   square: string;
   boardSide: BoardSideType;
-  setPieceSelected: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedPromotionPiece: ChessPieceType | undefined;
   setSelectedPromotionPiece: React.Dispatch<
-    React.SetStateAction<ChessPieceType>
+    React.SetStateAction<ChessPieceType | undefined>
   >;
 }
 
 export const ChessPiece: React.FC<ChessPieceProps> = ({
   piece,
-  pieceSelected,
+  selectedPromotionPiece,
   square,
   boardSide,
-  setPieceSelected,
   setSelectedPromotionPiece,
 }) => {
   const isPromotionPopoverVisible = React.useCallback(
@@ -30,21 +29,17 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
       return (
         (square[1] === "1" || square[1] === "8") &&
         (piece === "WPawn" || piece === "BPawn") &&
-        !pieceSelected
+        !selectedPromotionPiece
       );
     },
-    [pieceSelected]
+    [selectedPromotionPiece]
   );
 
   return (
     <Popover
       color={lightSquareColor}
       open={isPromotionPopoverVisible(square, piece)}
-      content={getPopoverContent(
-        piece,
-        setSelectedPromotionPiece,
-        setPieceSelected
-      )}
+      content={getPopoverContent(piece, setSelectedPromotionPiece)}
     >
       <img
         className={classNames("chess-board-piece", {
