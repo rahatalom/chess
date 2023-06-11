@@ -2,14 +2,14 @@
   display: block;
   height: fit-content;
   width: fit-content;
-  border: 10px solid rgba(68, 68, 85, 0.8);
+  border: 5px solid rgb(104, 104, 104);
 }
 
 .chess-board-rotated {
   display: block;
   height: fit-content;
   width: fit-content;
-  border: 10px solid rgba(68, 68, 85, 0.8);
+  border: 5px solid rgb(104, 104, 104);
   rotate: 180deg;
 }
 
@@ -46,9 +46,9 @@
   width: 70px;
 }
 
-.chess-promotion-radio-button{
+.chess-promotion-radio-button {
   height: fit-content;
-  width: fit-content; 
+  width: fit-content;
   background: #99a !important;
-  border: none !important
+  border: none !important;
 }

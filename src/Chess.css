@@ -3,7 +3,8 @@
   flex-direction: column;
   height: 100vh;
   align-items: center;
-  background-color: #99a;
+  background-image: url(grey.jpg);
+  background-repeat: repeat;
 }
 
 .chess-header {
@@ -14,15 +15,13 @@
   flex-direction: row;
   margin-bottom: 10px;
   width: 100%;
-  background-color: rgba(68, 68, 85, 0.696);
-  border-bottom: 2px solid #445;
 }
 
 .chess-header-text {
   font-size: 45px;
   margin-right: 10px;
   margin-top: 7px;
-  color: rgb(34, 34, 42) !important;
+  color: rgb(142, 142, 142) !important;
 }
 
 .chess-button {
@@ -30,8 +29,8 @@
   margin: 5px 10px 0;
   font-size: 20px;
   font-weight: bolder;
-  color: #445;
-  background-color: #99a;
+  color: rgb(50, 50, 50);
+  background-color: darkgrey;
 }
 
 .chess-button-container {
