@@ -49,6 +49,6 @@
 .chess-promotion-radio-button {
   height: fit-content;
   width: fit-content;
-  background: #99a !important;
+  background: grey !important;
   border: none !important;
 }

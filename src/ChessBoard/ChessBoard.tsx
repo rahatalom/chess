@@ -6,7 +6,7 @@ import "./ChessBoard.css";
 import { ChessPieceType } from "../types";
 import { ChessPiece } from "./ChessPiece";
 import { getInitialPosition } from "../utils";
-import { isEqual } from "lodash";
+import { isEqual, pick } from "lodash";
 import { getPossibleMoves } from "./utils";
 
 interface ChessBoardProps {
@@ -77,6 +77,25 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       ),
     [moveList, positionObject, sourceId]
   );
+
+  const isCastlingAvailable = React.useMemo(() => {
+    const rank = turn === TurnType.White ? "1" : "8";
+
+    const pieceRow = Object.values(
+      Object.fromEntries(
+        Object.entries(positionObject).filter((entry) => entry[0][1] === rank)
+      )
+    );
+
+    const rookToCheck = turn === TurnType.White ? "WRook" : "BRook";
+    const kingToCheck = turn === TurnType.White ? "WKing" : "BKing";
+
+    return (
+      (pieceRow[0] === rookToCheck && pieceRow[1] === kingToCheck) ||
+      (pieceRow[pieceRow.length - 2] === kingToCheck &&
+        pieceRow[pieceRow.length - 1] === rookToCheck)
+    );
+  }, [positionObject, turn]);
 
   const onDragEnd = React.useCallback(() => {
     if (isPieceCaptureInvalid || !destinationId || sourceId === "") {
