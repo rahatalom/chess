@@ -6,3 +6,8 @@
   -moz-user-select: none;
   -ms-user-select: none;
 }
+
+:root {
+  background-image: url(grey.jpg);
+  background-repeat: repeat;
+}
