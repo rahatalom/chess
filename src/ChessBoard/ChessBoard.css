@@ -19,16 +19,16 @@
 }
 
 .chess-board-piece-container {
-  height: 60px;
-  width: 60px;
+  height: 40px;
+  width: 40px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
 }
 
 .chess-board-piece {
-  height: 70px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   cursor: grab;
 }
 
@@ -37,13 +37,13 @@
 }
 
 .chess-board-empty-square {
-  height: 70px;
-  width: 70px;
+  height: 40px;
+  width: 40px;
 }
 
 .chess-board-promotion-piece {
-  height: 70px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
 }
 
 .chess-promotion-radio-button {

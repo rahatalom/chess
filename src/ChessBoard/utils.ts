@@ -1,6 +1,7 @@
 import { compact } from "lodash";
 import { letters } from "../constants";
 import { ChessPieceType } from "../types";
+import { TurnType } from "./ChessBoard";
 
 export const getPossibleMoves = (
   positionObject: Record<string, ChessPieceType>,
@@ -12,11 +13,11 @@ export const getPossibleMoves = (
 ) => {
   const previousMoveArray = moveList[moveList?.length - 1]?.split("-");
   const movingPiece = positionObject[sourceId];
+
   if (!movingPiece) {
     return [];
   }
 
-  // const color = movingPiece[0];
   let possibleMoves: string[] = [];
   const [column, rank] = [sourceId[0], +sourceId[1]];
 
@@ -80,6 +81,7 @@ export const getPossibleMoves = (
       return possibleMoves;
     }
   }
+
   // if (movingPiece?.endsWith("Rook")) {
   //   let verticalRow = nums.map((num) => column + num);
   //   let horizontalRow = letters.map((letter) => letter + rank);
@@ -110,4 +112,58 @@ export const getPossibleMoves = (
 
   //   return possibleMoves;
   // }
+};
+
+const getValidCastlingSquares = (
+  possibleCastlingSquares: string[],
+  shortCastle: boolean,
+  longCastle: boolean
+) => {
+  if (shortCastle && longCastle) {
+    return possibleCastlingSquares;
+  }
+  if (shortCastle) {
+    return [possibleCastlingSquares[1]];
+  }
+  if (longCastle) {
+    return [possibleCastlingSquares[0]];
+  } else {
+    return [];
+  }
+};
+
+export const getCastlingInfo = (
+  turn: TurnType,
+  positionObject: Record<string, ChessPieceType>
+) => {
+  const rank = turn === TurnType.White ? "1" : "8";
+  const possibleCastlingSquares =
+    turn === TurnType.White ? ["C1", "G1"] : ["C8", "G8"];
+
+  const pieceRow = Object.values(
+    Object.fromEntries(
+      Object.entries(positionObject).filter((entry) => entry[0][1] === rank)
+    )
+  );
+
+  const rookToCheck = turn === TurnType.White ? "WRook" : "BRook";
+  const kingToCheck = turn === TurnType.White ? "WKing" : "BKing";
+
+  const shortCastle =
+    pieceRow[pieceRow.length - 2] === kingToCheck &&
+    pieceRow[pieceRow.length - 1] === rookToCheck;
+  const longCastle = pieceRow[0] === rookToCheck && pieceRow[1] === kingToCheck;
+
+  const isCastlingAvailable = shortCastle || longCastle;
+
+  const castleInfo = {
+    isCastlingAvailable,
+    castlingSquares: getValidCastlingSquares(
+      possibleCastlingSquares,
+      shortCastle,
+      longCastle
+    ),
+  };
+
+  return castleInfo;
 };

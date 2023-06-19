@@ -1,10 +1,10 @@
 .chess {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   align-items: center;
   background-image: url(grey.jpg);
   background-repeat: repeat;
+  padding-bottom: 50px;
 }
 
 .chess-header {
@@ -18,7 +18,7 @@
 }
 
 .chess-header-text {
-  font-size: 45px;
+  font-size: 35px !important;
   margin-right: 10px;
   margin-top: 7px;
   color: rgb(143, 143, 143) !important;
@@ -27,7 +27,7 @@
 .chess-button {
   width: fit-content;
   margin: 5px 10px 0;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bolder;
   color: rgb(50, 50, 50);
   background-color: rgb(143, 143, 143);

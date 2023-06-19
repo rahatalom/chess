@@ -6,8 +6,8 @@ import "./ChessBoard.css";
 import { ChessPieceType } from "../types";
 import { ChessPiece } from "./ChessPiece";
 import { getInitialPosition } from "../utils";
-import { isEqual, pick } from "lodash";
-import { getPossibleMoves } from "./utils";
+import { isEqual } from "lodash";
+import { getCastlingInfo, getPossibleMoves } from "./utils";
 
 interface ChessBoardProps {
   rows: string[][];
@@ -24,7 +24,7 @@ interface ChessBoardProps {
   setMoveList: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-enum TurnType {
+export enum TurnType {
   Black = "B",
   White = "W",
 }
@@ -50,6 +50,12 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   >(undefined);
   const [enPassantDestinationSquare, setEnPassantDestinationSquare] =
     React.useState<string | undefined>(undefined);
+
+  const castleInfo = React.useMemo(
+    () => getCastlingInfo(turn, positionObject),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [turn]
+  );
 
   const getIsPieceCaptureInvalid = React.useCallback(
     (destination: string) => {
@@ -78,25 +84,6 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     [moveList, positionObject, sourceId]
   );
 
-  const isCastlingAvailable = React.useMemo(() => {
-    const rank = turn === TurnType.White ? "1" : "8";
-
-    const pieceRow = Object.values(
-      Object.fromEntries(
-        Object.entries(positionObject).filter((entry) => entry[0][1] === rank)
-      )
-    );
-
-    const rookToCheck = turn === TurnType.White ? "WRook" : "BRook";
-    const kingToCheck = turn === TurnType.White ? "WKing" : "BKing";
-
-    return (
-      (pieceRow[0] === rookToCheck && pieceRow[1] === kingToCheck) ||
-      (pieceRow[pieceRow.length - 2] === kingToCheck &&
-        pieceRow[pieceRow.length - 1] === rookToCheck)
-    );
-  }, [positionObject, turn]);
-
   const onDragEnd = React.useCallback(() => {
     if (isPieceCaptureInvalid || !destinationId || sourceId === "") {
       return;
@@ -110,6 +97,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       let filteredObj = Object.fromEntries(
         Object.entries(positionObject).filter((entry) => entry[0] !== sourceId)
       );
+
       if (destinationId === enPassantDestinationSquare) {
         const [enPassantColumn, enPassantRank] = [
           enPassantDestinationSquare[0],
@@ -125,6 +113,31 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
             (entry) => entry[0] !== enPassantCaptureSquare
           )
         );
+      }
+
+      if (positionObject[sourceId].endsWith("King")) {
+        if (
+          castleInfo.isCastlingAvailable &&
+          castleInfo.castlingSquares.includes(destinationId)
+        ) {
+          const color = positionObject[sourceId][0];
+          const isShortCastle = destinationId.startsWith("G");
+          const rookRemovalSquare = isShortCastle
+            ? "H" + destinationId[1]
+            : "A" + destinationId[1];
+          filteredObj = Object.fromEntries(
+            Object.entries(filteredObj).filter(
+              (entry) => entry[0] !== rookRemovalSquare
+            )
+          );
+          const rookDestination = isShortCastle
+            ? "F" + destinationId[1]
+            : "D" + destinationId[1];
+          filteredObj = {
+            ...filteredObj,
+            [rookDestination]: (color + "Rook") as ChessPieceType,
+          };
+        }
       }
 
       setPositionObject(filteredObj);
@@ -154,6 +167,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     positionObjectList,
     setMoveList,
     moveList,
+    castleInfo,
   ]);
 
   const onDrop = React.useCallback(
