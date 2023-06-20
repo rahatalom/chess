@@ -122,20 +122,20 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         ) {
           const color = positionObject[sourceId][0];
           const isShortCastle = destinationId.startsWith("G");
-          const rookRemovalSquare = isShortCastle
+          const rookDestinationToFilter = isShortCastle
             ? "H" + destinationId[1]
             : "A" + destinationId[1];
           filteredObj = Object.fromEntries(
             Object.entries(filteredObj).filter(
-              (entry) => entry[0] !== rookRemovalSquare
+              (entry) => entry[0] !== rookDestinationToFilter
             )
           );
-          const rookDestination = isShortCastle
+          const rookDestinationAfterCastling = isShortCastle
             ? "F" + destinationId[1]
             : "D" + destinationId[1];
           filteredObj = {
             ...filteredObj,
-            [rookDestination]: (color + "Rook") as ChessPieceType,
+            [rookDestinationAfterCastling]: (color + "Rook") as ChessPieceType,
           };
         }
       }
