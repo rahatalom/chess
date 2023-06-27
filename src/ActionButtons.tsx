@@ -9,6 +9,8 @@ import { isEmpty } from "lodash";
 import { getInitialPosition } from "./utils";
 import { BoardSideType } from "./Chess";
 import { ChessPieceType } from "./types";
+import useSound from "use-sound";
+import move from "./Sounds/move.mp3";
 
 interface ActionButtonsProps {
   rows: string[][];
@@ -33,6 +35,8 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   setBoardSide,
   setMoveList,
 }) => {
+  const [play] = useSound(move);
+
   document.onkeydown = function (e) {
     var keyCode = e.keyCode;
     if (keyCode === 37) {
@@ -44,20 +48,28 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   };
 
   const prev = React.useCallback(() => {
+    if(isEmpty(positionObjectList)){
+      return
+    }
     const index = positionObjectList.indexOf(positionObject);
     setPositionObject(
       positionObjectList[index - 1] ?? getInitialPosition(rows)
     );
-  }, [positionObjectList, positionObject, rows, setPositionObject]);
+    play();
+  }, [positionObjectList, positionObject, setPositionObject, rows, play]);
 
   const next = React.useCallback(() => {
+    if(isEmpty(positionObjectList)){
+      return
+    }
     const index = positionObjectList.indexOf(positionObject);
     setPositionObject(
       positionObjectList[index + 1] ??
         positionObjectList[index] ??
         getInitialPosition(rows)
     );
-  }, [positionObject, positionObjectList, rows, setPositionObject]);
+    play();
+  }, [play, positionObject, positionObjectList, rows, setPositionObject]);
 
   return (
     <div className="chess-button-container">

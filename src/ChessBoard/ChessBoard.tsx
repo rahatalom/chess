@@ -7,7 +7,10 @@ import { ChessPieceType } from "../types";
 import { ChessPiece } from "./ChessPiece";
 import { getInitialPosition } from "../utils";
 import { isEqual } from "lodash";
+import useSound from "use-sound";
+
 import { getCastlingInfo, getPossibleMoves } from "./utils";
+import move from "../Sounds/move.mp3";
 
 interface ChessBoardProps {
   rows: string[][];
@@ -50,6 +53,8 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   >(undefined);
   const [enPassantDestinationSquare, setEnPassantDestinationSquare] =
     React.useState<string | undefined>(undefined);
+
+  const [play] = useSound(move);
 
   const castleInfo = React.useMemo(
     () => getCastlingInfo(turn, positionObject),
@@ -154,6 +159,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         }
       });
       setEnPassantDestinationSquare(undefined);
+      play();
     }
   }, [
     isPieceCaptureInvalid,
@@ -167,7 +173,9 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     positionObjectList,
     setMoveList,
     moveList,
-    castleInfo,
+    play,
+    castleInfo.isCastlingAvailable,
+    castleInfo.castlingSquares,
   ]);
 
   const onDrop = React.useCallback(
