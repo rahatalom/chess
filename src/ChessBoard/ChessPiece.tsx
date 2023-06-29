@@ -8,7 +8,6 @@ import { getPopoverContent } from "./getPopoverContent";
 
 interface ChessPieceProps {
   piece: ChessPieceType;
-
   square: string;
   boardSide: BoardSideType;
   selectedPromotionPiece: ChessPieceType | undefined;
