@@ -89,7 +89,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     [moveList, positionObject, sourceId]
   );
 
-  const onDragEnd = React.useCallback(() => {
+  const onDragEnd = () => {
     if (isPieceCaptureInvalid || !destinationId || sourceId === "") {
       return;
     }
@@ -161,24 +161,9 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       setEnPassantDestinationSquare(undefined);
       play();
     }
-  }, [
-    isPieceCaptureInvalid,
-    destinationId,
-    sourceId,
-    possibleMoves,
-    positionObject,
-    enPassantDestinationSquare,
-    setPositionObject,
-    setPositionObjectList,
-    positionObjectList,
-    setMoveList,
-    moveList,
-    play,
-    castleInfo.isCastlingAvailable,
-    castleInfo.castlingSquares,
-  ]);
+  };
 
-  const onDrop = React.useCallback(
+  const onDrop = 
     (e: React.DragEvent<HTMLDivElement>) => {
       const destination = Object.values(e.target)[1].id;
       setDestinationId(destination);
@@ -195,16 +180,8 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         ...positionObject,
         [destination]: positionObject[sourceId],
       });
-    },
-    [
-      getIsPieceCaptureInvalid,
-      positionObject,
-      possibleMoves,
-      setPositionObject,
-      sourceId,
-    ]
-  );
-
+    }
+ 
   React.useEffect(() => {
     if (selectedPromotionPiece) {
       setPositionObject({
