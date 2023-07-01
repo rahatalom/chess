@@ -82,7 +82,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
     if (soundList[index + 1] === "capture") {
       captureSound();
     }
-    if (soundList[index + 1] === "move" || soundList[index] === "move") {
+    if (soundList[index + 1] === "move") {
       moveSound();
     }
   };
