@@ -59,7 +59,8 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   const [enPassantDestinationSquare, setEnPassantDestinationSquare] =
     React.useState<string | undefined>(undefined);
 
-  const [captureWasMade, setCaptureWasMade] = React.useState<boolean>(false);
+  const [conventionalCaptureWasMade, setConventionalCaptureWasMade] =
+    React.useState<boolean>(false);
 
   const [moveSound] = useSound(move);
   const [captureSound] = useSound(capture);
@@ -110,6 +111,10 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       let filteredObj = Object.fromEntries(
         Object.entries(positionObject).filter((entry) => entry[0] !== sourceId)
       );
+
+      const captureWasMade =
+        conventionalCaptureWasMade ||
+        destinationId === enPassantDestinationSquare;
 
       if (destinationId === enPassantDestinationSquare) {
         const [enPassantColumn, enPassantRank] = [
@@ -175,7 +180,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         }
       });
       setEnPassantDestinationSquare(undefined);
-      setCaptureWasMade(false);
+      setConventionalCaptureWasMade(false);
     }
   };
 
@@ -193,7 +198,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     }
 
     if (!isCaptureInvalid && positionObject[destination]) {
-      setCaptureWasMade(true);
+      setConventionalCaptureWasMade(true);
     }
 
     setPositionObject({
