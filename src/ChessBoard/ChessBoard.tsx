@@ -45,7 +45,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   moveList,
   setMoveList,
   soundList,
-  setSoundList
+  setSoundList,
 }) => {
   const [sourceId, setSourceId] = React.useState("");
   const [destinationId, setDestinationId] = React.useState("");
@@ -153,6 +153,14 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         }
       }
 
+      if (captureWasMade) {
+        captureSound();
+        setSoundList([...soundList, "capture"]);
+      } else {
+        moveSound();
+        setSoundList([...soundList, "move"]);
+      }
+
       setPositionObject(filteredObj);
       setPositionObjectList([...positionObjectList, filteredObj]);
       setMoveList([
@@ -167,13 +175,6 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         }
       });
       setEnPassantDestinationSquare(undefined);
-      if (captureWasMade) {
-        captureSound();
-        setSoundList([...soundList,"capture"])
-      } else {
-        moveSound();
-        setSoundList([...soundList,"move"])
-      }
       setCaptureWasMade(false);
     }
   };
@@ -191,7 +192,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       return;
     }
 
-    if (!isCaptureInvalid && (positionObject[destination])) {
+    if (!isCaptureInvalid && positionObject[destination]) {
       setCaptureWasMade(true);
     }
 
