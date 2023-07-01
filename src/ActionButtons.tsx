@@ -42,6 +42,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 }) => {
   const [moveSound] = useSound(move);
   const [captureSound] = useSound(capture);
+  const isPositionObjectListEmpty = isEmpty(positionObjectList);
 
   document.onkeydown = function (e) {
     var keyCode = e.keyCode;
@@ -54,7 +55,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   };
 
   const prev = () => {
-    if (isEmpty(positionObjectList)) {
+    if (isPositionObjectListEmpty) {
       return;
     }
     const index = positionObjectList.indexOf(positionObject);
@@ -70,7 +71,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   };
 
   const next = () => {
-    if (isEmpty(positionObjectList)) {
+    if (isPositionObjectListEmpty) {
       return;
     }
     const index = positionObjectList.indexOf(positionObject);
@@ -104,7 +105,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
       </Tooltip>
       <button
         className="chess-button"
-        disabled={isEmpty(positionObjectList)}
+        disabled={isPositionObjectListEmpty}
         onClick={() => prev()}
       >
         <Tooltip title="Previous move">
@@ -114,7 +115,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 
       <button
         className="chess-button"
-        disabled={isEmpty(positionObjectList)}
+        disabled={isPositionObjectListEmpty}
         onClick={() => next()}
       >
         <Tooltip title="Next move">
