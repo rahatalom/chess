@@ -106,7 +106,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
       <button
         className="chess-button"
         disabled={isPositionObjectListEmpty}
-        onClick={() => prev()}
+        onClick={prev}
       >
         <Tooltip title="Previous move">
           <CaretLeftOutlined />
@@ -116,7 +116,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
       <button
         className="chess-button"
         disabled={isPositionObjectListEmpty}
-        onClick={() => next()}
+        onClick={next}
       >
         <Tooltip title="Next move">
           <CaretRightOutlined />
