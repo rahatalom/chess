@@ -11,6 +11,7 @@ import { BoardSideType } from "./Chess";
 import { ChessPieceType } from "./types";
 import useSound from "use-sound";
 import move from "./Sounds/move.mp3";
+import capture from "./Sounds/capture.mp3";
 
 interface ActionButtonsProps {
   rows: string[][];
@@ -24,6 +25,8 @@ interface ActionButtonsProps {
   >;
   setBoardSide: React.Dispatch<React.SetStateAction<BoardSideType>>;
   setMoveList: React.Dispatch<React.SetStateAction<string[]>>;
+  soundList: string[];
+  setSoundList: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -34,8 +37,11 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   setPositionObjectList,
   setBoardSide,
   setMoveList,
+  soundList,
+  setSoundList,
 }) => {
-  const [play] = useSound(move);
+  const [moveSound] = useSound(move);
+  const [captureSound] = useSound(capture);
 
   document.onkeydown = function (e) {
     var keyCode = e.keyCode;
@@ -47,20 +53,25 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
     }
   };
 
-  const prev = React.useCallback(() => {
-    if(isEmpty(positionObjectList)){
-      return
+  const prev = () => {
+    if (isEmpty(positionObjectList)) {
+      return;
     }
     const index = positionObjectList.indexOf(positionObject);
     setPositionObject(
       positionObjectList[index - 1] ?? getInitialPosition(rows)
     );
-    play();
-  }, [positionObjectList, positionObject, setPositionObject, rows, play]);
+    if (soundList[index - 1] === "capture") {
+      captureSound();
+    }
+    if (soundList[index - 1] === "move") {
+      moveSound();
+    }
+  };
 
-  const next = React.useCallback(() => {
-    if(isEmpty(positionObjectList)){
-      return
+  const next = () => {
+    if (isEmpty(positionObjectList)) {
+      return;
     }
     const index = positionObjectList.indexOf(positionObject);
     setPositionObject(
@@ -68,8 +79,13 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
         positionObjectList[index] ??
         getInitialPosition(rows)
     );
-    play();
-  }, [play, positionObject, positionObjectList, rows, setPositionObject]);
+    if (soundList[index + 1] === "capture") {
+      captureSound();
+    }
+    if (soundList[index + 1] === "move" || soundList[index] === "move") {
+      moveSound();
+    }
+  };
 
   return (
     <div className="chess-button-container">
@@ -80,6 +96,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
             setPositionObject(getInitialPosition(rows));
             setPositionObjectList([]);
             setMoveList([]);
+            setSoundList([]);
           }}
         >
           ↺

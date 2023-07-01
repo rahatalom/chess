@@ -30,6 +30,7 @@ export const Chess = () => {
   const [boardSide, setBoardSide] = React.useState<BoardSideType>(
     BoardSideType.White
   );
+  const [soundList, setSoundList] = React.useState<string[]>([]);
 
   return (
     <div className="chess">
@@ -43,6 +44,8 @@ export const Chess = () => {
           setPositionObjectList={setPositionObjectList}
           setBoardSide={setBoardSide}
           setMoveList={setMoveList}
+          soundList={soundList}
+          setSoundList={setSoundList}
         />
       </div>
 
@@ -55,6 +58,8 @@ export const Chess = () => {
         boardSide={boardSide}
         moveList={moveList}
         setMoveList={setMoveList}
+        soundList={soundList}
+        setSoundList={setSoundList}
       />
     </div>
   );

@@ -11,6 +11,7 @@ import useSound from "use-sound";
 
 import { getCastlingInfo, getPossibleMoves } from "./utils";
 import move from "../Sounds/move.mp3";
+import capture from "../Sounds/capture.mp3";
 
 interface ChessBoardProps {
   rows: string[][];
@@ -25,6 +26,8 @@ interface ChessBoardProps {
   boardSide: BoardSideType;
   moveList: string[];
   setMoveList: React.Dispatch<React.SetStateAction<string[]>>;
+  soundList: string[];
+  setSoundList: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export enum TurnType {
@@ -41,6 +44,8 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   boardSide,
   moveList,
   setMoveList,
+  soundList,
+  setSoundList
 }) => {
   const [sourceId, setSourceId] = React.useState("");
   const [destinationId, setDestinationId] = React.useState("");
@@ -54,7 +59,10 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   const [enPassantDestinationSquare, setEnPassantDestinationSquare] =
     React.useState<string | undefined>(undefined);
 
-  const [play] = useSound(move);
+  const [captureWasMade, setCaptureWasMade] = React.useState<boolean>(false);
+
+  const [moveSound] = useSound(move);
+  const [captureSound] = useSound(capture);
 
   const castleInfo = React.useMemo(
     () => getCastlingInfo(turn, positionObject),
@@ -159,29 +167,40 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         }
       });
       setEnPassantDestinationSquare(undefined);
-      play();
+      if (captureWasMade) {
+        captureSound();
+        setSoundList([...soundList,"capture"])
+      } else {
+        moveSound();
+        setSoundList([...soundList,"move"])
+      }
+      setCaptureWasMade(false);
     }
   };
 
-  const onDrop = 
-    (e: React.DragEvent<HTMLDivElement>) => {
-      const destination = Object.values(e.target)[1].id;
-      setDestinationId(destination);
-      setIsPieceCaptureInvalid(getIsPieceCaptureInvalid(destination));
-      if (getIsPieceCaptureInvalid(destination)) {
-        return;
-      }
-
-      if (!possibleMoves?.includes(destination) && possibleMoves) {
-        return;
-      }
-
-      setPositionObject({
-        ...positionObject,
-        [destination]: positionObject[sourceId],
-      });
+  const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    const destination = Object.values(e.target)[1].id;
+    setDestinationId(destination);
+    const isCaptureInvalid = getIsPieceCaptureInvalid(destination);
+    setIsPieceCaptureInvalid(isCaptureInvalid);
+    if (getIsPieceCaptureInvalid(destination)) {
+      return;
     }
- 
+
+    if (!possibleMoves?.includes(destination) && possibleMoves) {
+      return;
+    }
+
+    if (!isCaptureInvalid && (positionObject[destination])) {
+      setCaptureWasMade(true);
+    }
+
+    setPositionObject({
+      ...positionObject,
+      [destination]: positionObject[sourceId],
+    });
+  };
+
   React.useEffect(() => {
     if (selectedPromotionPiece) {
       setPositionObject({
